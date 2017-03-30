@@ -1,6 +1,6 @@
 1. App name: "Room Finder"
 2. Keywords: optimal, security, price
-3. Description of datasets and function design:
+3. Description of datasets and function design:  
 	Affordable Rental Housing Developments [link] [datatype] [data
 	columns used] [data amount]
 	Police Stations
@@ -9,10 +9,10 @@
 	Bike Racks
 	Pedestrian Streets
 	
-	Will I use "online clime data" from data.gov?
-	Yes I only use dataset provided in the suggested page of U.S. gov.
+	*Will I use "online clime data" from data.gov?
+	*Yes I only use dataset provided in the suggested page of U.S. gov.
 
-4. Brief Description:
+4. Brief Description:  
 	The principal aim of this project is make easy to foreign people in
 	Chicago find the closest room or place to live that it is near to
 	Computer Science Department of Chicago's University, not only based
@@ -24,7 +24,7 @@
 	application in a way that can be easily extrapolated to another
 	cities around the world.
 
-	*Map View:
+	*Map View:  
 		1. No, the map when is displayed has as center the Computer
 		Science Departament.
 		2. No, for the development of application (and its easiness)
@@ -35,7 +35,7 @@
 		5. Yes, possible red blurred circle areas covering the
 		security critical areas.
 
-	*Data Visualization:
+	*Data Visualization:  
 		1. Yes, a bubble chart with colors will be used. The colors
 		intend to indicate to user in the way that the most
 		predominant is a color, then a specific feature of the room is
@@ -49,16 +49,16 @@
 			- Select signalized location in map.
 			- Button that selects the next closest location
 
-	*Interaction Form:  
+	*Interaction Form:    
 		1. Yes, the output is a Bubble Chart
 		2. 
 
-	*Build Case...
+	*Build Case...  
 
 
-	*Test Case...
+	*Test Case...  
 
 
-	*Additional Info...
+	*Additional Info...  
 
 
