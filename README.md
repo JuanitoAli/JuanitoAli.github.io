@@ -40,16 +40,16 @@
 		intend to indicate to user in the way that the most
 		predominant is a color, then a specific feature of the room is
 		acommplished, e.g. most red than blue points to a insecure
-		site than another that contains more blue than red.
+		site than another that contains more blue than red.  
 
 		2. Yes, the unique is select in map a location. Also, there
 		will be a button that selects the next closest location to the
 		Computer Science Dept in map.
-		Summary:
+		Summary:  
 			- Select signalized location in map.
 			- Button that selects the next closest location
 
-	*Interaction Form:
+	*Interaction Form:  
 		1. Yes, the output is a Bubble Chart
 		2. 
 
