@@ -1,0 +1,48 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<title>RoomFinder</title>
+		<meta charset="utf-8">
+		<style>
+			#map {
+				width: 100%;
+				height: 400px;
+				background-color: CadetBlue;
+			}
+		</style>
+		<script>
+			var script = document.createElement('script');
+			script.src =
+			'http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp';
+			document.getElementsByTagName('head')[0].appendChild(script);
+
+		</script>
+	<body>
+		<div id="map"></div>
+		<script>
+			var map;
+			function initMap() {
+				map = new google.maps.Map(document.getElementById('map'), {
+					zoom: 2,
+					center: {lat: 41.8, lng: 87.6},
+					mapTypeId: 'terrain'
+				});
+				var script = document.createElement('script');
+				script.src = 'https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js';
+				document.getElementsByTagName('head')[0].appendChild(script);
+
+				window.eqfeed_callback = function(results){
+					for(var i = 0; i < results.features.length; i++) {
+						var coord =	features[i].geometry.coordinates;
+						var latLng = new google.maps.LatLng(coord[0], coord[1]);
+						var marker = new google.maps.Marker({position: latLng, map: map});
+					}
+				}
+		
+				
+			};
+		</script>
+		<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMuMYjahmL5PqqH_RwtIxveCdbbzN7XDE&callback=initMap"></script>
+	</body>
+</html>
