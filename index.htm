@@ -23,8 +23,11 @@
 			    flex: 1 100%;
 			}
 
-			.article {
-			    text-align: left;
+			.flex-item {
+			    background-color: cornflowerblue;
+			    width: 500px;
+			    height: 500px;
+			    margin: 10px;
 			}
 
 			header {background: black;color:white;}
@@ -72,6 +75,7 @@
 		      </a>
 					<button type="button" class="btn btn-default navbar-btn">Reload map</button>
 					<button type="button" class="btn btn-default navbar-btn">Save SnapShot</button>
+					<button type="button" class="btn btn-default navbar-btn">Next Location</button>
 		    </div>
 		  </div>
 		</nav>
@@ -81,11 +85,11 @@
 
 		<div class="flex-container">
 			<nav class="nav">
-				<div id="map"></div>
+				<div id="map" class="flex-item"></div>
 			</nav>
 
 			<div class="article">
-				<img src='picProto/bubleChart_proto2.png'>
+				<img src='picProto/bubleChart_proto2.png' class="flex">
 			</div>
 
 			<footer>Copyright &copy; FreeRoom.com</footer>
