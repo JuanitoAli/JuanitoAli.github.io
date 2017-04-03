@@ -1,4 +1,148 @@
-<!DOCTYPE>
+<!-- The template of page was taken from https://www.w3schools.com/bootstrap/bootstrap_templates.asp-->
+
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src='http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp'></script>
+  <script src= 'https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js'></script>
+
+  <style>
+		/* GoogleMap specs */
+		#map {
+			width: 500px;
+			height: 500px;
+			background-color: CadetBlue;
+		}
+
+
+    /* Remove the navbar's default margin-bottom and rounded borders */
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 450px}
+
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;}
+    }
+  </style>
+</head>
+<body>
+
+	<nav class="navbar navbar-inverse">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="#">RoomFinder</a>
+	    </div>
+	    <div class="collapse navbar-collapse" id="myNavbar">
+	      <ul class="nav navbar-nav">
+	        <li class="active"><a href="#">Home</a></li>
+	        <li><a href="#">#Option1</a></li>
+	        <li><a href="#">#Option2</a></li>
+	        <li><a href="#">#Option3</a></li>
+	      </ul>
+	      <ul class="nav navbar-nav navbar-right">
+	        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+
+	<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMuMYjahmL5PqqH_RwtIxveCdbbzN7XDE&callback=initMap"></script>
+
+  <div class="container-fluid text-center">
+	  <div class="row content">
+	    <div class="col-sm-2 sidenav">
+	      <p><a href="#">Link</a></p>
+	      <p><a href="#">Link</a></p>
+	      <p><a href="#">Link</a></p>
+	    </div>
+	    <div class="col-sm-8 text-left" >
+	      <h1>Welcome</h1>
+        <div id="map" class="well"></div>
+
+	      <hr>
+	      <h3>Info: </h3>
+	      <p>Put some info here! </p>
+	    </div>
+	    <div class="col-sm-2 sidenav">
+	      <div class="well">
+	        <p>Chart#1</p>
+	      </div>
+	      <div class="well">
+	        <p>Chart#2</p>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+  <script>
+    var map;
+    var latLng = {lat: 41.8708, lng: -87.6505};
+    function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 12,
+        center: latLng,
+        mapTypeId: 'terrain'
+      });
+
+    var marker = new google.maps.Marker({
+      position: latLng,
+      map: map,
+      title: 'Chicago University'
+    });
+      window.eqfeed_callback = function(results){
+        for(var i = 0; i < results.features.length; i++) {
+          var coord =	results.features[i].geometry.coordinates;
+          var latLng = new google.maps.LatLng(coord[0], coord[1]);
+          var marker = new google.maps.Marker({position: latLng, map: map});
+        }
+      }
+    };
+  </script>
+
+	<footer class="container-fluid text-center">
+	  <p>RoomFinder 2017</p>
+	</footer>
+
+	</body>
+</html>
+
+<!-- OLD CODE LAYOUT -->
+
+<!--DOCTYPE>
 <html>
 	<head>
 		<title>RoomFinder</title>
@@ -120,4 +264,4 @@
 			};
 		</script>
 	</body>
-</html>
+</html> -->
