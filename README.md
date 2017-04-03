@@ -8,7 +8,7 @@
 	Park District Facilities
 	Bike Racks
 	Pedestrian Streets
-	
+
 	* Will I use "online clime data" from data.gov?
 	* Yes I only use dataset provided in the suggested page of U.S. gov.
 
@@ -23,6 +23,19 @@
 	in the same problem. The secondary objective is deploy de
 	application in a way that can be easily extrapolated to another
 	cities around the world.
+
+	UPDATE!!
+	A new idea for data visualization... process de entire dataset that have all
+	crimes and chicago, to count the number of apareances certain location, so
+	that location that is most counted is most insecure. Then do something that
+	is done in this page [link] http://www.infocaptor.com/bubble-my-page. After
+	that the table of most named location can be marked in map, this can be util
+	if desired room of all disponible (we can put all in map) are maked too <- So
+	with this idea the other requeriments is satisfaid (budget). The bubble chart
+	is keep up!
+	A zoomable treemap is a good idea too: [link] http://mbostock.github.io/d3/talk/20111018/treemap.html
+	
+
 
 	* Map View:  
 		1. No, the map when is displayed has as center the Computer
@@ -51,7 +64,7 @@
 
 	* Interaction Form:    
 		1. Yes, the output is a Bubble Chart
-		2. 
+		2.
 
 	* Build Case...  
 
@@ -60,5 +73,3 @@
 
 
 	* Additional Info...  
-
-
