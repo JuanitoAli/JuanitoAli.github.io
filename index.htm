@@ -2,7 +2,7 @@
 
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>Find your room easily!</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -10,6 +10,8 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src='http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp'></script>
   <script src= 'https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js'></script>
+  <script src= 'js/CSVToArray.js'></script>
+  <script src= 'js/jquery.csv.js'></script>
 
   <style>
 		/* GoogleMap specs */
@@ -109,6 +111,8 @@
 	</div>
 
   <script>
+    var parsedData = $.csv.toArrays('coordinates.csv');
+    console.log(parsedData);
     var map;
     var latLng = {lat: 41.8708, lng: -87.6505};
     function initMap() {
@@ -139,129 +143,3 @@
 
 	</body>
 </html>
-
-<!-- OLD CODE LAYOUT -->
-
-<!--DOCTYPE>
-<html>
-	<head>
-		<title>RoomFinder</title>
-		<meta charset="utf-8">
-		<style>
-			#map {
-				width: 500px;
-				height: 500px;
-				background-color: CadetBlue;
-			}
-			.flex-container {
-			    display: -webkit-flex;
-			    display: flex;
-			    -webkit-flex-flow: row wrap;
-			    flex-flow: row wrap;
-			    text-align: center;
-			}
-
-			.flex-container > * {
-			    padding: 15px;
-			    -webkit-flex: 1 100%;
-			    flex: 1 100%;
-			}
-
-			.flex-item {
-			    background-color: cornflowerblue;
-			    width: 500px;
-			    height: 500px;
-			    margin: 10px;
-			}
-
-			header {background: black;color:white;}
-			footer {background: #aaa;color:white;}
-			.nav {background:#eee;}
-
-			.nav ul {
-			    list-style-type: none;
-			    padding: 0;
-			}
-			.nav ul a {
-			    text-decoration: none;
-			}
-
-			@media all and (min-width: 768px) {
-			    .nav {text-align:left;-webkit-flex: 1 auto;flex:1 auto;-webkit-order:1;order:1;}
-			    .article {-webkit-flex:5 0px;flex:5 0px;-webkit-order:2;order:2;}
-			    footer {-webkit-order:3;order:3;}
-			}
-		</style>
-		<link
-			rel="stylesheet"
-			href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-			integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-			crossorigin="anonymous">
-		<link
-			rel="stylesheet"
-			href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-			integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
-			crossorigin="anonymous">
-		<script
-			  src="http://code.jquery.com/jquery-3.2.1.js"
-			  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-			  crossorigin="anonymous"></script>
-		<script src='http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp'></script>
-		<script src= 'https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js'></script>
-	</head>
-
-	<body>
-		<nav class="navbar navbar-inverse">
-		  <div class="container-fluid">
-		    <div class="navbar-header">
-		      <a class="navbar-brand" href="#">
-						RoomFinder
-		      </a>
-					<button type="button" class="btn btn-default navbar-btn">Reload map</button>
-					<button type="button" class="btn btn-default navbar-btn">Save SnapShot</button>
-					<button type="button" class="btn btn-default navbar-btn">Next Location</button>
-		    </div>
-		  </div>
-		</nav>
-
-		<script async defer
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMuMYjahmL5PqqH_RwtIxveCdbbzN7XDE&callback=initMap"></script>
-
-		<div class="flex-container">
-			<nav class="nav">
-				<div id="map" class="flex-item"></div>
-			</nav>
-
-			<div class="article">
-				<img src='picProto/bubleChart_proto2.png' class="flex">
-			</div>
-
-			<footer>Copyright &copy; FreeRoom.com</footer>
-		</div>
-
-		<script>
-			var map;
-			var latLng = {lat: 41.8708, lng: -87.6505};
-			function initMap() {
-				map = new google.maps.Map(document.getElementById('map'), {
-					zoom: 12,
-					center: latLng,
-					mapTypeId: 'terrain'
-				});
-
-			var marker = new google.maps.Marker({
-				position: latLng,
-				map: map,
-				title: 'Chicago University'
-			});
-				window.eqfeed_callback = function(results){
-					for(var i = 0; i < results.features.length; i++) {
-						var coord =	results.features[i].geometry.coordinates;
-						var latLng = new google.maps.LatLng(coord[0], coord[1]);
-						var marker = new google.maps.Marker({position: latLng, map: map});
-					}
-				}
-			};
-		</script>
-	</body>
-</html> -->
