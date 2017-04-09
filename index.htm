@@ -17,7 +17,7 @@
 			height: 100%;
 			background-color: CadetBlue;
 		}
-    
+
     /* Set black background color, white text and some padding */
     footer {
       background-color: #555;
@@ -25,14 +25,6 @@
       padding: 15px;
     }
 
-    /* On small screens, set height to 'auto' for sidenav and grid */
-    @media screen and (max-width: 767px) {
-      .sidenav {
-        height: auto;
-        padding: 15px;
-      }
-      .row.content {height:auto;}
-    }
   </style>
 </head>
 <body>
@@ -157,6 +149,21 @@
       map: map,
       title: 'Chicago University'
     });
+
+
+    var myCity = new google.maps.Circle({
+      center:latLng,
+      radius:20000,
+      strokeColor:"#0000FF",
+      strokeOpacity:0.8,
+      strokeWeight:2,
+      fillColor:"#0000FF",
+      fillOpacity:0.4
+    });
+
+
+
+
       window.eqfeed_callback = function(results){
         for(var i = 0; i < results.features.length; i++) {
           var coord =	results.features[i].geometry.coordinates;
