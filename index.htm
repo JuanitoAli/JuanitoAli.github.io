@@ -1,5 +1,3 @@
-<!-- The template of page was taken from https://www.w3schools.com/bootstrap/bootstrap_templates.asp-->
-
 <html lang="en">
 <head>
   <title>Find your room easily!</title>
@@ -8,13 +6,14 @@
   <link rel="stylesheet" href="css\bootstrap.css">
   <script src="js\jquery-3.2_0.js"></script>
   <script src="js\bootstrap.js"></script>
-  <script src= 'js/d3.js'></script>
+  <script src= 'js\d3.js'></script>
+
 
   <style>
 		/* GoogleMap specs */
 		#map {
 			width: 100%;
-			height: 100%;
+			height: 600px;
 			background-color: CadetBlue;
 		}
 
@@ -24,14 +23,9 @@
       color: white;
       padding: 15px;
     }
-
   </style>
 </head>
 <body>
-
-  <script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMuMYjahmL5PqqH_RwtIxveCdbbzN7XDE&callback=initMap"></script>
-
 
 	<nav class="navbar navbar-inverse">
 	  <div class="container-fluid">
@@ -126,53 +120,104 @@
 	    </div>
 
       <div class="col-sm-6">
-        <div id="map" class="well"></div>
-
+        <div id="map"></div>
+        <p id="000" style="background-color:orange"></p>
+        <p id="001" style="background-color:powderblue"></p>
       </div>
-
 	  </div>
 	</div>
 
+  <!--map rendering-->
   <script>
+    // Callback function from GoogleMap API
+    function drawMap() {
+      var latLngDeptComp = {lat: 41.8708, lng: -87.6505}; //  Department of Computer Science – University of Illinois
 
-    var map;
-    var latLng = {lat: 41.8708, lng: -87.6505};
-    function initMap() {
-      map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 12,
-        center: latLng,
-        mapTypeId: 'terrain'
+      var map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 10,
+        center: latLngDeptComp,
+        mapTypeId: 'satellite'
       });
 
-    var marker = new google.maps.Marker({
-      position: latLng,
-      map: map,
-      title: 'Chicago University'
-    });
+      // Department of Computer Science marker
+      var marker = new google.maps.Marker({
+        position: latLngDeptComp,
+        map: map,
+        title: 'Chicago University',
+        animation: google.maps.Animation.BOUNCE,
+        icon: "icon/education/university.png"
+      });
+
+      // JSON loading via ajax request
+      var url = [
+        /*
+            linkNumber = 0
+            Police_Stations.json
+            JSON =: {meta: object, data: array[23]}
+            coordinates of station k at JSON.data[k][22]
+        */
+        "https://data.cityofchicago.org/api/views/z8bn-74gv/rows.json?accessType=DOWNLOAD",
+        /*
+          linkNumber = 1
+          Affordable_Rental_Housing_Developments.json
+
+        */
+        "https://data.cityofchicago.org/api/views/s6ha-ppgi/rows.json?accessType=DOWNLOAD",
+        /*
+          linkNumber = 2
+          SSMMA_Median_Home_Value.json
+        */
+        "https://data.illinois.gov/api/views/miqf-743d/rows.json?accessType=DOWNLOAD"
+      ]
 
 
-    var myCity = new google.maps.Circle({
-      center:latLng,
-      radius:20000,
-      strokeColor:"#0000FF",
-      strokeOpacity:0.8,
-      strokeWeight:2,
-      fillColor:"#0000FF",
-      fillOpacity:0.4
-    });
+      // puts markers of coordinates specified in var url
+      function putMarkersOfURL(linkNumber) {
+          var response;
+          var request = new XMLHttpRequest();
+          request.onreadystatechange = function() {
+            if(this.readyState == 4 && this.status == 200) {
+              switch(linkNumber) {
+                // Markers for Police_Stations.json
+                case 0:
+                  response = JSON.parse(this.responseText);
+                  for(var i = 0; i < response.data.length; i++) {
+                    var coord = response.data[i][22]
+                    var latLng = new google.maps.LatLng(coord[1], coord[2]);
+                    var marker = new google.maps.Marker({
+                      position: latLng,
+                      map: map,
+                      icon: "icon/offices/police.png"});
+                  }
+                  break;
 
-
-
-
-      window.eqfeed_callback = function(results){
-        for(var i = 0; i < results.features.length; i++) {
-          var coord =	results.features[i].geometry.coordinates;
-          var latLng = new google.maps.LatLng(coord[0], coord[1]);
-          var marker = new google.maps.Marker({position: latLng, map: map});
-        }
+                // Markers for Affordable_Rental_Housing_Developments.json
+                case 1:
+                  response = JSON.parse(this.responseText);
+                  for(var i = 0; i < response.data.length; i++) {
+                    var coordinate = new google.maps.LatLng(response.data[i][19], response.data[i][20]);
+                    var marker = new google.maps.Marker({
+                      position: coordinate,
+                      map: map,
+                      icon: "icon/offices/house2.png"
+                    })
+                  }
+                  break;
+            }
+          }
+        };
+          request.open("GET", url[linkNumber], true);
+          request.send();
       }
+
+      putMarkersOfURL(0);
+      putMarkersOfURL(1);
     };
   </script>
+
+  <!--google maps API-->
+  <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMuMYjahmL5PqqH_RwtIxveCdbbzN7XDE&callback=drawMap"></script>
 
 	<footer class="container-fluid text-center">
 	  <p>RoomFinder 2017</p>
