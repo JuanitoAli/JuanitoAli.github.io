@@ -738,7 +738,8 @@
       "flags" : [ "default", "restorable", "restorePossibleForType" ]
     }
   },
-  "data" : [ [ 1, "D4821108-EE94-44AD-AEAA-40076EBF35EF", 1, 1354020974, "393208", 1354020974, "393208", "{\n}", "1", "Homewood", "119500", "http://www.zillow.com/local-info/IL-Homewood-home-value/r_45795/", "MJR", "1", "UR", "73388.0626195", "147228317.032" ]
+  "data" : [
+  [ 1, "D4821108-EE94-44AD-AEAA-40076EBF35EF", 1, 1354020974, "393208", 1354020974, "393208", "{\n}", "1", "Homewood", "119500", "http://www.zillow.com/local-info/IL-Homewood-home-value/r_45795/", "MJR", "1", "UR", "73388.0626195", "147228317.032" ]
 , [ 2, "9B87BF82-B67F-44E9-87FF-038A947971C4", 2, 1354020974, "393208", 1354020974, "393208", "{\n}", "2", "Flossmoor", "171200", "http://www.zillow.com/local-info/IL-Flossmoor-home-value/r_29979/", "MJR", "2", "UR", "93368.9037482", "101139509.05" ]
 , [ 3, "3BF7EDF2-B159-48C3-B9E2-AC99B5D50FD2", 3, 1354020974, "393208", 1354020974, "393208", "{\n}", "3", "Olympia Fields", "182600", "http://www.zillow.com/local-info/IL-Olympia-Fields-home-value/r_22183/", "MJR", "3", "UR", "69537.6219866", "79538995.9458" ]
 , [ 4, "E36C69BA-593F-49F2-9232-FB2CB0475E73", 4, 1354020974, "393208", 1354020974, "393208", "{\n}", "4", "Country Club Hills", "92700", "http://www.zillow.com/local-info/IL-Country-Club-Hills-home-value/r_14849/", "MJR", "4", "UR", "77819.513342", "131526346.171" ]
