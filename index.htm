@@ -28,6 +28,7 @@
 </head>
 <body>
 
+  <!-- UPPER BLACK NAVBAR -->
 	<nav class="navbar navbar-inverse">
 	    <div class="container-fluid">
 	    <div class="navbar-header">
@@ -41,7 +42,12 @@
 	    <div class="collapse navbar-collapse" id="myNavbar">
 	      <ul class="nav navbar-nav">
 	        <li class="active"><a href="#">Home</a></li>
-	        <li><a href="#">#Option1</a></li>
+
+          <!-- Global View -->
+	        <li>
+            <a href="#" onclick="drawScatterplot(true);">Global View</a>
+          </li>
+
 	        <li><a href="#">#Option2</a></li>
 	        <li><a href="#">#Option3</a></li>
 	      </ul>
@@ -52,107 +58,27 @@
 	  </div>
 	</nav>
 
+  <!-- PAGE CENTRAL CONTENT LAYOUT: SCATTERPLOT & GOOGLE MAP -->
   <div class="container-fluid text-center">
 	  <div class="row content">
-	    <div id="scatter-plot2" class="col-sm-6" >
-
-
-        <script src="js/d3.js"></script>
-        <script>
-          var w = 700;
-          var h = 600;
-          var padding = 20;
-          var svg = d3.select("div.col-sm-6")
-                      .append("svg")
-                      .attr("width", w)
-                      .attr("height", h)
-
-          var dataset = [];
-          var numDataPoints = 50;
-          var xRange = Math.random() * 1000;
-          var yRange = Math.random() * 1000;
-          for (var i = 0; i < numDataPoints; i++) {
-              var newNumber1 = Math.round(Math.random() * xRange);
-              var newNumber2 = Math.round(Math.random() * yRange);
-              dataset.push([newNumber1, newNumber2]);
-          }
-
-          var xScale = d3.scaleLinear()
-                          .domain([0, d3.max(dataset, function(d) { return d[0]; })])
-                          .range([padding, w - padding*2]);
-
-          var yScale = d3.scaleLinear()
-                          .domain([0, d3.max(dataset, function(d) { return d[1]; })])
-                          .range([h - padding, padding]);
-
-          d3.select("body").select("svg")
-              .selectAll("circle")
-              .data(dataset)
-              .enter()
-              .append("circle")
-              .attr("cx", function(d){
-                return xScale(d[0]);
-              })
-              .attr("cy", function(d){
-                return yScale(d[1]);
-              })
-              .attr("r", function(d){
-                return Math.sqrt(xScale(d[1])) ;
-              })
-
-          d3.select("body").select("svg")
-            .selectAll("text")
-            .data(dataset)
-            .enter()
-            .append("text")
-            .text(function(d) {
-                return d[0] + ", " + d[1];
-            })
-            .attr("x", function(d) {
-              return xScale(d[0]);
-            })
-            .attr("y", function(d) {
-              return yScale(d[1]);
-            })
-            .attr("fill", "orange")
-            .attr("font-size", "11")
-            .attr("font-family", "sans-serif");
-
-          var xAxis = d3.axisBottom()
-                          .scale(xScale)
-                          .ticks(5);
-          var yAxis = d3.axisLeft()
-                          .scale(yScale)
-                          .ticks(5);
-
-          svg.append("g")
-              .attr("transform", "translate(0, 300)")
-              .call(xAxis);
-
-          svg.append("g")
-              .attr("transform", "translate(350, 0)")
-              .call(yAxis)
-
-
-          console.log(xScale(250));
-          console.log(yScale(95));
-
-
-
-        </script>
+      <!-- scatterplot -->
+	    <div class="col-sm-6"  id="scatterplot">
+        <svg></svg>
 	    </div>
 
+      <!-- google map -->
       <div class="col-sm-6">
         <div id="map"></div>
       </div>
 	  </div>
 	</div>
 
-  <!--map rendering-->
+  <!-- MAP RENDERING AND SCATTERPLOT LOGIC -->
   <script>
     // Callback function from GoogleMap API
+    /* ------------------------------------------------------------------------*/
     function drawMap() {
-      var latLngDeptComp = {lat: 41.8708, lng: -87.6505}; //  Department of Computer Science – University of Illinois
+      var latLngDeptComp = {lat: 41.8708, lng: -87.6505}; //  Department of Computer Science – University of Illinois coords
 
       var map = new google.maps.Map(document.getElementById("map"), {
         zoom: 10,
@@ -174,12 +100,13 @@
         /*
             linkNumber = 0
             Police_Stations.json
-            JSON =: {meta: object, data: array[23]}
+            JSON := {meta: object, data: array[23]}
             coordinates of station k at JSON.data[k][22]
         */
         "https://data.cityofchicago.org/api/views/z8bn-74gv/rows.json?accessType=DOWNLOAD",
         /*
           linkNumber = 1
+          iconColor := green
           Affordable_Rental_Housing_Developments.json
 
         */
@@ -208,6 +135,7 @@
           var request = new XMLHttpRequest();
           request.onreadystatechange = function() {
             if(this.readyState == 4 && this.status == 200) {
+              var data = [];
               switch(linkNumber) {
                 // Markers for Police_Stations.json
                 case 0:
@@ -219,7 +147,9 @@
                       position: latLng,
                       map: map,
                       icon: "icon/offices/police.png"});
+                      data.push([coord[1], coord[2]]);
                   }
+                  drawScatterplot(false, data, true);
                   break;
 
                 // Markers for Affordable_Rental_Housing_Developments.json
@@ -231,8 +161,10 @@
                       position: coordinate,
                       map: map,
                       icon: "icon/offices/house2.png"
-                    })
+                    });
+                    data.push([response.data[i][19], response.data[i][20]]);
                   }
+                  drawScatterplot(false, data, false);
                   break;
             }
           }
@@ -244,6 +176,108 @@
       putMarkersOfURL(0);
       putMarkersOfURL(1);
     };
+
+    // SCATTER PLOT lOGIC
+    /* -----------------------------------------------------------------------*/
+    // DATA REQUEST
+    // AJAX data request (until now I do not know how to reuse previus request
+    // without nest functions!)
+
+    // SCATTERPLOT RENDERING
+    /*
+      drawScatterplot(...);
+        clearAll (boolean) -> clean SVG canvas for scatterplot
+        policeOk (boolean) -> draws the Police_Station.json dataset
+        policeData (arrayDataset) -> Police_station.json dataset
+        houseOk (boolean) -> draws Affordable_Rental_Housing_Developments.json dataset
+        houseData (arrayDataset) -> Affordable_Rental_Housing_Developments dataset
+
+        murdersOK (boolean) ->
+        murdersData (arrayDataset) ->
+
+        overDraw (boolean) -> draws over existing plot
+
+    */
+    function drawScatterplot(clearAll, dataset, overDraw) {
+
+      if( clearAll ) {
+        d3.select("svg").remove();
+        d3.select("div.col-sm-6").append("svg");
+      }
+
+
+      // main svg (canvas) parameters
+      var w = 700;
+      var h = 600;
+      var padding = 40;
+
+      var svg = d3.select("svg")
+                  .attr("width", w)
+                  .attr("height", h)
+
+      var xScale = d3.scaleLinear()
+                      .domain([
+                        d3.min(dataset, function(d) { return d[0]; }),
+                        d3.max(dataset, function(d) { return d[0]; })
+                      ])
+                      .range([padding, w - padding*2]);
+
+      var yScale = d3.scaleLinear()
+                      .domain([
+                        d3.min(dataset, function(d) { return d[1]; }),
+                        d3.max(dataset, function(d) { return d[1]; })
+                      ])
+                      .range([h - padding, padding]);
+
+      if(!overDraw) {
+        d3.select("body").select("svg")
+            .selectAll("circle.house")
+            .data(dataset)
+            .enter()
+            .append("circle")
+            .attr("cx", function(d){
+              return xScale(d[0]);
+            })
+            .attr("cy", function(d){
+              return yScale(d[1]);
+            })
+            .attr("r", function(d){
+              return 3;
+            })
+            .attr("fill", "rgb(103, 197, 71)");
+
+        var xAxis = d3.axisBottom()
+                        .scale(xScale)
+                        .ticks(5);
+        var yAxis = d3.axisLeft()
+                        .scale(yScale)
+                        .ticks(5);
+
+        svg.append("g")
+            .attr("transform", "translate(0, " + (h - padding) + ")")
+            .call(xAxis);
+
+        svg.append("g")
+            .attr("transform", "translate(" + padding + " 0)")
+            .call(yAxis);
+      } else {
+        d3.select("body").select("svg")
+            .selectAll("circle.police")
+            .data(dataset)
+            .enter()
+            .append("circle")
+            .attr("cx", function(d){
+              return xScale(d[0]);
+            })
+            .attr("cy", function(d){
+              return yScale(d[1]);
+            })
+            .attr("r", function(d){
+              return 50;
+            })
+            .attr("fill", "powderblue");
+      }
+    }
   </script>
 
   <!--google maps API-->
