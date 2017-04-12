@@ -65,7 +65,7 @@
     <div class="container-fluid text-center">
 	    <div class="row content">
             <!-- scatterplot -->
-	        <div class="col-sm-6"    id="scatterplot">
+	        <div class="col-sm-6" id="scatterplot">
                 <svg>
                     <defs>
                       <filter id="blur">
@@ -80,10 +80,58 @@
                 <div id="map"></div>
             </div>
 	    </div>
+        <div class="row content">
+            <div class="col-sm-6 well text-left">
+                <p> <strong>How to use</strong><br>
+                    <ul>
+                        <li>Orange dot depict Department of Computer Science of University of Illinois.</li>
+                        <li>Green dots depict affordable houses.</il>
+                        <li>Blue blurred circles depict police station "visible" area.</li>
+                        <li>Click on a green dot display phone number.</li>
+                        <li>Click on any house on map changes icon color and adds movement.</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
 	</div>
 
     <!-- MAP RENDERING AND SCATTERPLOT LOGIC -->
     <script>
+        // url to datasets...
+        var url = [
+            /*
+                "police"
+                linkNumber = 0
+                Police_Stations.json
+                JSON := {meta: object, data: array[23]}
+                coordinates of station k at JSON.data[k][22]
+            */
+            "https://data.cityofchicago.org/api/views/z8bn-74gv/rows.json?accessType=DOWNLOAD",
+            /*
+                "house"
+                linkNumber = 1
+                iconColor := green
+                Affordable_Rental_Housing_Developments.json
+
+            */
+            "https://data.cityofchicago.org/api/views/s6ha-ppgi/rows.json?accessType=DOWNLOAD",
+            /*
+                linkNumber = 2
+                SSMMA_Median_Home_Value.json
+            */
+            "https://data.illinois.gov/api/views/miqf-743d/rows.json?accessType=DOWNLOAD",
+            /*
+                linkNumber = 3
+                Boundaries - Police Districts (current)
+            */
+            "https://data.cityofchicago.org/api/views/24zt-jpfn/rows.json?accessType=DOWNLOAD",
+            /*
+                linkNumber = 4
+                Boundaries - Police Beats (current)
+            */
+            "https://data.cityofchicago.org/api/views/n9it-hstw/rows.json?accessType=DOWNLOAD"
+        ]
+
         /*
             used to hold AJAX request. Has the following four fields
             dataArray[0] := digit that indicates to which dataset belongs the next fields
@@ -118,41 +166,6 @@
             });
 
             // JSON loading via ajax request
-            var url = [
-                /*
-                    "police"
-                    linkNumber = 0
-                    Police_Stations.json
-                    JSON := {meta: object, data: array[23]}
-                    coordinates of station k at JSON.data[k][22]
-                */
-                "https://data.cityofchicago.org/api/views/z8bn-74gv/rows.json?accessType=DOWNLOAD",
-                /*
-                    "house"
-                    linkNumber = 1
-                    iconColor := green
-                    Affordable_Rental_Housing_Developments.json
-
-                */
-                "https://data.cityofchicago.org/api/views/s6ha-ppgi/rows.json?accessType=DOWNLOAD",
-                /*
-                    linkNumber = 2
-                    SSMMA_Median_Home_Value.json
-                */
-                "https://data.illinois.gov/api/views/miqf-743d/rows.json?accessType=DOWNLOAD",
-                /*
-                    linkNumber = 3
-                    Boundaries - Police Districts (current)
-                */
-                "https://data.cityofchicago.org/api/views/24zt-jpfn/rows.json?accessType=DOWNLOAD",
-                /*
-                    linkNumber = 4
-                    Boundaries - Police Beats (current)
-                */
-                "https://data.cityofchicago.org/api/views/n9it-hstw/rows.json?accessType=DOWNLOAD"
-            ]
-
-
             // puts markers of coordinates specified in var url
             function putMarkersOfURL(linkNumber) {
                     var response;
@@ -171,6 +184,7 @@
                                             map: map,
                                             icon: "icon/offices/police.png"
                                         });
+
                                         dataArray.push([0, coord[1], coord[2], 0]);
                                     }
                                     break;
@@ -185,7 +199,12 @@
                                             map: map,
                                             icon: "icon/offices/house2.png"
                                         });
-                                        dataArray.push([1, response.data[i][19], response.data[i][20], 0]);
+                                        marker.addListener('click', function() {
+                                            //map.setZoom(14);
+                                            this.setIcon("icon/offices/house3.png");
+                                            this.setAnimation(google.maps.Animation.BOUNCE);
+                                        });
+                                        dataArray.push([1, response.data[i][19], response.data[i][20], response.data[i][14]]);
                                     }
                                     break;
                         }
@@ -276,6 +295,7 @@
                 .data(dataset0)
                 .enter()
                 .append("circle")
+                .attr("class", "police")
                 .attr("cx", function(d){
                     return xScale(d[1]);
                 })
@@ -295,6 +315,7 @@
                 .data(dataset1)
                 .enter()
                 .append("circle")
+                .attr("class", "house")
                 .attr("cx", function(d){
                     return xScale(d[1]);
                 })
@@ -313,6 +334,10 @@
                 .attr("cy", yScale(-87.6505))
                 .attr("r", "5")
                 .attr("fill", "rgb(255, 137, 34)");
+
+            d3.selectAll("circle.house").on("click",function(d,i) {
+                alert("Phone: " + d[3]);
+            })
 
 
             // generate axis x y chart
