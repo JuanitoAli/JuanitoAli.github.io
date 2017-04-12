@@ -1,16 +1,18 @@
+<!-- THE PAGE LOGIC WORKS BEHIND SYNCHRONOUS AJAX REQUESTS!!!! -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Find your room easily!</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css\bootstrap.css">
-  <script src="js\jquery-3.2_0.js"></script>
-  <script src="js\bootstrap.js"></script>
-  <script src= 'js\d3.js'></script>
+    <title>Find your room easily!</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css\bootstrap.css">
+    <script src="js\jquery-3.2_0.js"></script>
+    <script src="js\bootstrap.js"></script>
+    <script src= 'js\d3.js'></script>
 
 
-  <style>
+    <style>
 		/* GoogleMap specs */
 		#map {
 			width: 100%;
@@ -18,274 +20,306 @@
 			background-color: CadetBlue;
 		}
 
-    /* Set black background color, white text and some padding */
-    footer {
-      background-color: #555;
-      color: white;
-      padding: 15px;
-    }
-  </style>
+        /* Set black background color, white text and some padding */
+        footer {
+            background-color: #555;
+            color: white;
+            padding: 15px;
+        }
+
+    </style>
 </head>
 <body>
 
-  <!-- UPPER BLACK NAVBAR -->
+    <!-- UPPER BLACK NAVBAR -->
 	<nav class="navbar navbar-inverse">
-	    <div class="container-fluid">
-	    <div class="navbar-header">
-	      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	      </button>
-	      <a class="navbar-brand" href="#">RoomFinder</a>
-	    </div>
-	    <div class="collapse navbar-collapse" id="myNavbar">
-	      <ul class="nav navbar-nav">
-	        <li class="active"><a href="#">Home</a></li>
+	        <div class="container-fluid">
+	        <div class="navbar-header">
+	            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+	                <span class="icon-bar"></span>
+	                <span class="icon-bar"></span>
+	                <span class="icon-bar"></span>
+	            </button>
+	            <a class="navbar-brand" href="#">RoomFinder</a>
+	        </div>
+	        <div class="collapse navbar-collapse" id="myNavbar">
+	            <ul class="nav navbar-nav">
+	                <li class="active"><a href="#">Home</a></li>
 
-          <!-- Global View -->
-	        <li>
-            <a href="#" onclick="drawScatterplot(true);">Global View</a>
-          </li>
+                    <!-- Global View -->
+	                <li>
+                        <a href="#">Global View</a>
+                    </li>
 
-	        <li><a href="#">#Option2</a></li>
-	        <li><a href="#">#Option3</a></li>
-	      </ul>
-	      <ul class="nav navbar-nav navbar-right">
-	        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-	      </ul>
+	                <li><a href="#">#Option2</a></li>
+	                <li><a href="#">#Option3</a></li>
+	            </ul>
+	            <ul class="nav navbar-nav navbar-right">
+	                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+	            </ul>
+	        </div>
 	    </div>
-	  </div>
 	</nav>
 
-  <!-- PAGE CENTRAL CONTENT LAYOUT: SCATTERPLOT & GOOGLE MAP -->
-  <div class="container-fluid text-center">
-	  <div class="row content">
-      <!-- scatterplot -->
-	    <div class="col-sm-6"  id="scatterplot">
-        <svg></svg>
-	    </div>
+    <!-- PAGE CENTRAL CONTENT LAYOUT: SCATTERPLOT & GOOGLE MAP -->
+    <div class="container-fluid text-center">
+	    <div class="row content">
+            <!-- scatterplot -->
+	        <div class="col-sm-6"    id="scatterplot">
+                <svg></svg>
+	        </div>
 
-      <!-- google map -->
-      <div class="col-sm-6">
-        <div id="map"></div>
-      </div>
-	  </div>
+            <!-- google map -->
+            <div class="col-sm-6">
+                <div id="map"></div>
+            </div>
+	    </div>
 	</div>
 
-  <!-- MAP RENDERING AND SCATTERPLOT LOGIC -->
-  <script>
-    // Callback function from GoogleMap API
-    /* ------------------------------------------------------------------------*/
-    function drawMap() {
-      var latLngDeptComp = {lat: 41.8708, lng: -87.6505}; //  Department of Computer Science – University of Illinois coords
-
-      var map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 10,
-        center: latLngDeptComp,
-        mapTypeId: 'satellite'
-      });
-
-      // Department of Computer Science marker
-      var marker = new google.maps.Marker({
-        position: latLngDeptComp,
-        map: map,
-        title: 'Chicago University',
-        animation: google.maps.Animation.BOUNCE,
-        icon: "icon/education/university.png"
-      });
-
-      // JSON loading via ajax request
-      var url = [
+    <!-- MAP RENDERING AND SCATTERPLOT LOGIC -->
+    <script>
         /*
-            linkNumber = 0
-            Police_Stations.json
-            JSON := {meta: object, data: array[23]}
-            coordinates of station k at JSON.data[k][22]
+            used to hold AJAX request. Has the following four fields
+            dataArray[0] := digit that indicates to which dataset belongs the next fields
+            dataArray[1] := latitude
+            dataArray[2] := longitude
+            dataArray[3] := filled with 0, for future use
         */
-        "https://data.cityofchicago.org/api/views/z8bn-74gv/rows.json?accessType=DOWNLOAD",
-        /*
-          linkNumber = 1
-          iconColor := green
-          Affordable_Rental_Housing_Developments.json
+        var dataArray = []; // used to hold AJAX requests
 
-        */
-        "https://data.cityofchicago.org/api/views/s6ha-ppgi/rows.json?accessType=DOWNLOAD",
         /*
-          linkNumber = 2
-          SSMMA_Median_Home_Value.json
+            The most code was placed in this function (drawMap) because seems that
+            google put here an environment to handle its maps API
         */
-        "https://data.illinois.gov/api/views/miqf-743d/rows.json?accessType=DOWNLOAD",
-        /*
-          linkNumber = 3
-          Boundaries - Police Districts (current)
-        */
-        "https://data.cityofchicago.org/api/views/24zt-jpfn/rows.json?accessType=DOWNLOAD",
-        /*
-          linkNumber = 4
-          Boundaries - Police Beats (current)
-        */
-        "https://data.cityofchicago.org/api/views/n9it-hstw/rows.json?accessType=DOWNLOAD"
-      ]
+        // Callback function from GoogleMap API
+        /* ------------------------------------------------------------------------*/
+        function drawMap() {
+            var latLngDeptComp = {lat: 41.8708, lng: -87.6505}; //    Department of Computer Science – University of Illinois coords
+
+            var map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 10,
+                center: latLngDeptComp,
+                mapTypeId: 'satellite'
+            });
+
+            // Department of Computer Science marker
+            var marker = new google.maps.Marker({
+                position: latLngDeptComp,
+                map: map,
+                title: 'Chicago University',
+                animation: google.maps.Animation.BOUNCE,
+                icon: "icon/education/university.png"
+            });
+
+            // JSON loading via ajax request
+            var url = [
+                /*
+                    "police"
+                    linkNumber = 0
+                    Police_Stations.json
+                    JSON := {meta: object, data: array[23]}
+                    coordinates of station k at JSON.data[k][22]
+                */
+                "https://data.cityofchicago.org/api/views/z8bn-74gv/rows.json?accessType=DOWNLOAD",
+                /*
+                    "house"
+                    linkNumber = 1
+                    iconColor := green
+                    Affordable_Rental_Housing_Developments.json
+
+                */
+                "https://data.cityofchicago.org/api/views/s6ha-ppgi/rows.json?accessType=DOWNLOAD",
+                /*
+                    linkNumber = 2
+                    SSMMA_Median_Home_Value.json
+                */
+                "https://data.illinois.gov/api/views/miqf-743d/rows.json?accessType=DOWNLOAD",
+                /*
+                    linkNumber = 3
+                    Boundaries - Police Districts (current)
+                */
+                "https://data.cityofchicago.org/api/views/24zt-jpfn/rows.json?accessType=DOWNLOAD",
+                /*
+                    linkNumber = 4
+                    Boundaries - Police Beats (current)
+                */
+                "https://data.cityofchicago.org/api/views/n9it-hstw/rows.json?accessType=DOWNLOAD"
+            ]
 
 
-      // puts markers of coordinates specified in var url
-      function putMarkersOfURL(linkNumber) {
-          var response;
-          var request = new XMLHttpRequest();
-          request.onreadystatechange = function() {
-            if(this.readyState == 4 && this.status == 200) {
-              var data = [];
-              switch(linkNumber) {
-                // Markers for Police_Stations.json
-                case 0:
-                  response = JSON.parse(this.responseText);
-                  for(var i = 0; i < response.data.length; i++) {
-                    var coord = response.data[i][22]
-                    var latLng = new google.maps.LatLng(coord[1], coord[2]);
-                    var marker = new google.maps.Marker({
-                      position: latLng,
-                      map: map,
-                      icon: "icon/offices/police.png"});
-                      data.push([coord[1], coord[2]]);
-                  }
-                  drawScatterplot(false, data, true);
-                  break;
+            // puts markers of coordinates specified in var url
+            function putMarkersOfURL(linkNumber) {
+                    var response;
+                    var request = new XMLHttpRequest();
+                    request.onreadystatechange = function() {
+                        if(this.readyState == 4 && this.status == 200) {
+                            switch(linkNumber) {
+                                // Markers for Police_Stations.json
+                                case 0:
+                                    response = JSON.parse(this.responseText);
+                                    for(var i = 0; i < response.data.length; i++) {
+                                        var coord = response.data[i][22]
+                                        var latLng = new google.maps.LatLng(coord[1], coord[2]);
+                                        var marker = new google.maps.Marker({
+                                            position: latLng,
+                                            map: map,
+                                            icon: "icon/offices/police.png"
+                                        });
+                                        dataArray.push([0, coord[1], coord[2], 0]);
+                                    }
+                                    break;
 
-                // Markers for Affordable_Rental_Housing_Developments.json
-                case 1:
-                  response = JSON.parse(this.responseText);
-                  for(var i = 0; i < response.data.length; i++) {
-                    var coordinate = new google.maps.LatLng(response.data[i][19], response.data[i][20]);
-                    var marker = new google.maps.Marker({
-                      position: coordinate,
-                      map: map,
-                      icon: "icon/offices/house2.png"
-                    });
-                    data.push([response.data[i][19], response.data[i][20]]);
-                  }
-                  drawScatterplot(false, data, false);
-                  break;
+                                // Markers for Affordable_Rental_Housing_Developments.json
+                                case 1:
+                                    response = JSON.parse(this.responseText);
+                                    for(var i = 0; i < response.data.length; i++) {
+                                        var coordinate = new google.maps.LatLng(response.data[i][19], response.data[i][20]);
+                                        var marker = new google.maps.Marker({
+                                            position: coordinate,
+                                            map: map,
+                                            icon: "icon/offices/house2.png"
+                                        });
+                                        dataArray.push([1, response.data[i][19], response.data[i][20], 0]);
+                                    }
+                                    break;
+                        }
+                    }
+                };
+                    request.open("GET", url[linkNumber], false);
+                    request.send();
             }
-          }
+
+            putMarkersOfURL(0);
+            putMarkersOfURL(1);
+            drawScatterplot(dataArray);
         };
-          request.open("GET", url[linkNumber], true);
-          request.send();
-      }
-
-      putMarkersOfURL(0);
-      putMarkersOfURL(1);
-    };
-
-    // SCATTER PLOT lOGIC
-    /* -----------------------------------------------------------------------*/
-    // DATA REQUEST
-    // AJAX data request (until now I do not know how to reuse previus request
-    // without nest functions!)
-
-    // SCATTERPLOT RENDERING
-    /*
-      drawScatterplot(...);
-        clearAll (boolean) -> clean SVG canvas for scatterplot
-        policeOk (boolean) -> draws the Police_Station.json dataset
-        policeData (arrayDataset) -> Police_station.json dataset
-        houseOk (boolean) -> draws Affordable_Rental_Housing_Developments.json dataset
-        houseData (arrayDataset) -> Affordable_Rental_Housing_Developments dataset
-
-        murdersOK (boolean) ->
-        murdersData (arrayDataset) ->
-
-        overDraw (boolean) -> draws over existing plot
-
-    */
-    function drawScatterplot(clearAll, dataset, overDraw) {
-
-      if( clearAll ) {
-        d3.select("svg").remove();
-        d3.select("div.col-sm-6").append("svg");
-      }
 
 
-      // main svg (canvas) parameters
-      var w = 700;
-      var h = 600;
-      var padding = 40;
+        // SCATTER PLOT lOGIC
+        /* -----------------------------------------------------------------------*/
+        // DATA REQUEST
+        // AJAX data request (until now I do not know how to reuse previus request
+        // without nest functions!)
 
-      var svg = d3.select("svg")
-                  .attr("width", w)
-                  .attr("height", h)
+        // SCATTERPLOT RENDERING
+        /*
+            dataset[0] := digit that indicates to which dataset belongs the next fields
+            dataset[1] := latitude
+            dataset[2] := longitude
+            dataset[3] := filled with 0, for future use
+        */
+        function drawScatterplot(dataset) {
 
-      var xScale = d3.scaleLinear()
-                      .domain([
-                        d3.min(dataset, function(d) { return d[0]; }),
-                        d3.max(dataset, function(d) { return d[0]; })
-                      ])
-                      .range([padding, w - padding*2]);
+            // SVG canvas parameters
+            var w = 700;
+            var h = 600;
+            var padding = 40;
 
-      var yScale = d3.scaleLinear()
-                      .domain([
-                        d3.min(dataset, function(d) { return d[1]; }),
-                        d3.max(dataset, function(d) { return d[1]; })
-                      ])
-                      .range([h - padding, padding]);
+            // adding SVG to DOM
+            var svg = d3.select("svg")
+                            .attr("width", w)
+                            .attr("height", h)
 
-      if(!overDraw) {
-        d3.select("body").select("svg")
-            .selectAll("circle.house")
-            .data(dataset)
-            .enter()
-            .append("circle")
-            .attr("cx", function(d){
-              return xScale(d[0]);
-            })
-            .attr("cy", function(d){
-              return yScale(d[1]);
-            })
-            .attr("r", function(d){
-              return 3;
-            })
-            .attr("fill", "rgb(103, 197, 71)");
+            // making a scale bijection between dataset and SVG canvas size
+            var xScale = d3.scaleLinear()
+                            .domain([
+                                d3.min(dataset, function(d) { return d[1]; }),
+                                d3.max(dataset, function(d) { return d[1]; })
+                            ])
+                                            .range([padding, w - padding*2]);
 
-        var xAxis = d3.axisBottom()
-                        .scale(xScale)
-                        .ticks(5);
-        var yAxis = d3.axisLeft()
-                        .scale(yScale)
-                        .ticks(5);
+            var yScale = d3.scaleLinear()
+                            .domain([
+                                d3.min(dataset, function(d) { return d[2]; }),
+                                d3.max(dataset, function(d) { return d[2]; })
+                            ])
+                            .range([h - padding, padding]);
 
-        svg.append("g")
-            .attr("transform", "translate(0, " + (h - padding) + ")")
-            .call(xAxis);
 
-        svg.append("g")
-            .attr("transform", "translate(" + padding + " 0)")
-            .call(yAxis);
-      } else {
-        d3.select("body").select("svg")
-            .selectAll("circle.police")
-            .data(dataset)
-            .enter()
-            .append("circle")
-            .attr("cx", function(d){
-              return xScale(d[0]);
-            })
-            .attr("cy", function(d){
-              return yScale(d[1]);
-            })
-            .attr("r", function(d){
-              return 50;
-            })
-            .attr("fill", "powderblue");
-      }
-    }
-  </script>
+            // divide dataset in pieces. Each piece is data about specific dataset
+            var dataset0 = []; // police data
+            var dataset1 = []; // house data
+            var dataset2 = []; // ??
+            var dataset3 = []; // ??
+            for(var i = 0; i < dataset.length; i++) {
+                switch(dataset[i][0]) {
+                    case 0:
+                        dataset0.push(dataset[i]);
+                        break;
+                    case 1:
+                        dataset1.push(dataset[i]);
+                        break;
+                    case 2:
+                        dataset2.push(dataset[i]);
+                        break;
+                    case 3:
+                        dataset3.push(dataset[i]);
+                        break;
+                }
+            }
 
-  <!--google maps API-->
-  <script async defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMuMYjahmL5PqqH_RwtIxveCdbbzN7XDE&callback=drawMap"></script>
+            console.log(dataset);
+            console.log(dataset0);
+            console.log(dataset1);
+
+            d3.select("body").select("svg")
+                .selectAll("circle.police")
+                .data(dataset0)
+                .enter()
+                .append("circle")
+                .attr("cx", function(d){
+                    return xScale(d[1]);
+                })
+                .attr("cy", function(d){
+                    return yScale(d[2]);
+                })
+                .attr("r", function(d){
+                    return 3;
+                })
+                .attr("fill", "red");
+
+
+            d3.select("body").select("svg")
+                .selectAll("circle.house")
+                .data(dataset1)
+                .enter()
+                .append("circle")
+                .attr("cx", function(d){
+                    return xScale(d[1]);
+                })
+                .attr("cy", function(d){
+                    return yScale(d[2]);
+                })
+                .attr("r", function(d){
+                    return 3;
+                })
+                .attr("fill", "rgb(103, 197, 71)");
+
+
+
+            var xAxis = d3.axisBottom()
+                            .scale(xScale)
+                            .ticks(5);
+            var yAxis = d3.axisLeft()
+                            .scale(yScale)
+                            .ticks(5);
+
+            svg.append("g")
+                .attr("transform", "translate(0, " + (h - padding) + ")")
+                .call(xAxis);
+
+            svg.append("g")
+                .attr("transform", "translate(" + padding + " 0)")
+                .call(yAxis);
+        }
+    </script>
+
+    <!--google maps API-->
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMuMYjahmL5PqqH_RwtIxveCdbbzN7XDE&callback=drawMap"></script>
 
 	<footer class="container-fluid text-center">
-	  <p>RoomFinder 2017</p>
+	    <p>RoomFinder 2017</p>
 	</footer>
 
 	</body>
