@@ -66,7 +66,13 @@
 	    <div class="row content">
             <!-- scatterplot -->
 	        <div class="col-sm-6"    id="scatterplot">
-                <svg></svg>
+                <svg>
+                    <defs>
+                      <filter id="blur">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="5" />
+                      </filter>
+                    </defs>
+                </svg>
 	        </div>
 
             <!-- google map -->
@@ -108,7 +114,7 @@
                 map: map,
                 title: 'Chicago University',
                 animation: google.maps.Animation.BOUNCE,
-                icon: "icon/education/university.png"
+                icon: "icon/education/university2.png"
             });
 
             // JSON loading via ajax request
@@ -258,10 +264,13 @@
                 }
             }
 
-            console.log(dataset);
-            console.log(dataset0);
-            console.log(dataset1);
+            console.log(dataset1)
 
+
+
+
+
+            // Draws police security incidence area (blue)
             d3.select("body").select("svg")
                 .selectAll("circle.police")
                 .data(dataset0)
@@ -274,11 +283,13 @@
                     return yScale(d[2]);
                 })
                 .attr("r", function(d){
-                    return 3;
+                    return 50;
                 })
-                .attr("fill", "red");
+                .attr("fill", "rgb(56, 117, 215)")
+                .attr("opacity", "0.5")
+                .attr("filter", "url(#blur)");
 
-
+            // Draws possible house dots (green)
             d3.select("body").select("svg")
                 .selectAll("circle.house")
                 .data(dataset1)
@@ -295,8 +306,16 @@
                 })
                 .attr("fill", "rgb(103, 197, 71)");
 
+            // Draw University Location
+            d3.select("body").select("svg")
+                .append("circle")
+                .attr("cx", xScale(41.8708))
+                .attr("cy", yScale(-87.6505))
+                .attr("r", "5")
+                .attr("fill", "rgb(255, 137, 34)");
 
 
+            // generate axis x y chart
             var xAxis = d3.axisBottom()
                             .scale(xScale)
                             .ticks(5);
@@ -304,6 +323,7 @@
                             .scale(yScale)
                             .ticks(5);
 
+            // add generated axis to SVG canvas
             svg.append("g")
                 .attr("transform", "translate(0, " + (h - padding) + ")")
                 .call(xAxis);
