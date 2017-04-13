@@ -149,12 +149,20 @@
             */
             "https://data.cityofchicago.org/resource/6zsd-86xi.json",
             /*
+                "climateData"
                 linkNumber = 4
+                iconColor := yellow
+                "??"
+                token := yPamBBFyXheSqvqPtnIXIdrHeumciHmr
+            */
+            "https://www.ncdc.noaa.gov/cdo-web/api/v2/dataset",
+            /*
+                linkNumber = 5
                 Boundaries - Police Districts (current)
             */
             "https://data.cityofchicago.org/api/views/24zt-jpfn/rows.json?accessType=DOWNLOAD",
             /*
-                linkNumber = 5
+                linkNumber = 6
                 Boundaries - Police Beats (current)
             */
             "https://data.cityofchicago.org/api/views/n9it-hstw/rows.json?accessType=DOWNLOAD"
@@ -170,7 +178,7 @@
         var dataArray = []; // used to hold AJAX requests
 
         /*
-
+            Progress bar a log box behavior
         */
         function progress(percent, message) {
             document.getElementById("progressBar").setAttribute("aria-valuenow", "" + percent + "");
@@ -212,79 +220,92 @@
             function putMarkersOfURL(linkNumber) {
                     var response;
                     var request = new XMLHttpRequest();
-                    request.onreadystatechange = function() {
-                        if(this.readyState == 4 && this.status == 200) {
-                            switch(linkNumber) {
-                                // Markers for Police_Stations.json
-                                case 0:
-                                    progress(65, "Requesting police data.");
-                                    response = JSON.parse(this.responseText);
-                                    for(var i = 0; i < response.data.length; i++) {
-                                        var coord = response.data[i][22]
-                                        var latLng = new google.maps.LatLng(coord[1], coord[2]);
-                                        var marker = new google.maps.Marker({
-                                            position: latLng,
-                                            map: map,
-                                            icon: "icon/offices/police.png"
-                                        });
-                                        dataArray.push([0, coord[1], coord[2], 0]);
-                                    }
-                                    break;
-
-                                // Markers for Affordable_Rental_Housing_Developments.json
-                                case 1:
-                                    progress(70, "Requesting houses data.");
-                                    response = JSON.parse(this.responseText);
-                                    for(var i = 0; i < response.data.length; i++) {
-                                        var coordinate = new google.maps.LatLng(response.data[i][19], response.data[i][20]);
-                                        var marker = new google.maps.Marker({
-                                            position: coordinate,
-                                            map: map,
-                                            icon: "icon/offices/house2.png"
-                                        });
-                                        marker.addListener('click', function() {
-                                            this.setIcon("icon/offices/house3.png");
-                                            this.setAnimation(google.maps.Animation.BOUNCE);
-                                            var node = document.getElementById("long" + this.getPosition().lat());
-                                            node.setAttribute("fill", "purple");
-                                        });
-                                        dataArray.push([1, response.data[i][19], response.data[i][20], response.data[i][14]]);
-                                    }
-                                    break;
-
-                                // Markers for SSMMA_Median_Home_Value.json
-                                case 2:
-                                    break;
-
-                                // Markers for Crimes - 2001 to present (recent)
-                                case 3:
-                                    progress(80, "Requesting crime data.")
-                                    response = JSON.parse(this.responseText);
-                                    /*
-                                        Only are plotted dataset entries that are multiple of 3, due
-                                        to do a responsive app.
-                                    */
-                                    for(var i = 0; i < response.length; ++i) {
-                                        var marker = new google.maps.Marker({
-                                            position: new google.maps.LatLng(response[i].latitude, response[i].longitude),
-                                            map: map,
-                                            icon: "icon/battlefield.png",
-                                            opacity: 0.05
-                                        });
-                                        dataArray.push([3, response[i].latitude, response[i].longitude, 0]);
-                                    }
-                                    break;
-                        }
-                    }
-                };
                     request.open("GET", url[linkNumber], false);
                     request.send();
+                    switch(linkNumber) {
+                        // Markers for Police_Stations.json
+                        case 0:
+                            progress(65, "Requesting police data.");
+                            response = JSON.parse(request.responseText);
+                            for(var i = 0; i < response.data.length; i++) {
+                                var coord = response.data[i][22]
+                                var latLng = new google.maps.LatLng(coord[1], coord[2]);
+                                var marker = new google.maps.Marker({
+                                    position: latLng,
+                                    map: map,
+                                    icon: "icon/offices/police.png"
+                                });
+                                dataArray.push([0, coord[1], coord[2], 0]);
+                            }
+                            break;
+
+                        // Markers for Affordable_Rental_Housing_Developments.json
+                        case 1:
+                            progress(70, "Requesting houses data.");
+                            response = JSON.parse(request.responseText);
+                            for(var i = 0; i < response.data.length; i++) {
+                                var coordinate = new google.maps.LatLng(response.data[i][19], response.data[i][20]);
+                                var marker = new google.maps.Marker({
+                                    position: coordinate,
+                                    map: map,
+                                    icon: "icon/offices/house2.png"
+                                });
+                                marker.addListener('click', function() {
+                                    this.setIcon("icon/offices/house3.png");
+                                    this.setAnimation(google.maps.Animation.BOUNCE);
+                                    var node = document.getElementById("long" + this.getPosition().lat());
+                                    node.setAttribute("fill", "purple");
+                                });
+                                dataArray.push([1, response.data[i][19], response.data[i][20], response.data[i][14]]);
+                            }
+                            break;
+
+                        // Markers for SSMMA_Median_Home_Value.json
+                        case 2:
+                            break;
+
+                        // Markers for Crimes - 2001 to present (recent)
+                        case 3:
+                            progress(80, "Requesting crime data.")
+                            response = JSON.parse(request.responseText);
+                            /*
+                                Only are plotted dataset entries that are multiple of 3, due
+                                to do a responsive app.
+                            */
+                            for(var i = 0; i < response.length; ++i) {
+                                var marker = new google.maps.Marker({
+                                    position: new google.maps.LatLng(response[i].latitude, response[i].longitude),
+                                    map: map,
+                                    icon: "icon/battlefield.png",
+                                    opacity: 0.05
+                                });
+                                dataArray.push([3, response[i].latitude, response[i].longitude, 0]);
+                            }
+                            break;
+
+                        // Markers for climate stations
+                        case 4:
+                            progress(90, "Requesting climate data");
+                            putMarkersOfURLClimate();
+                            break;
+                    }
             }
 
-            putMarkersOfURL(0);
-            putMarkersOfURL(1);
-            putMarkersOfURL(3);
-            drawScatterplot(dataArray);
+            function putMarkersOfURLClimate() {
+                var response;
+                var request = new XMLHttpRequest();
+                request.open("GET", " https://www.ncdc.noaa.gov/cdo-web/api/v2/datasets", false);
+                request.setRequestHeader("token", "yPamBBFyXheSqvqPtnIXIdrHeumciHmr");
+                request.send();
+                response = JSON.parse(request.responseText);
+                console.log(response);
+            }
+
+            //putMarkersOfURL(0);
+            //putMarkersOfURL(1);
+            //putMarkersOfURL(3);
+            putMarkersOfURL(4);
+            //drawScatterplot(dataArray);
             progress(100, "Ready!");
 
         };
@@ -294,6 +315,7 @@
         function removeCrimeMap() {
             console.log(document.getElementsByClassName("crime"));
         }
+
 
 
 
