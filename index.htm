@@ -55,7 +55,7 @@
 	                <li><a href="#">#Option3</a></li>
 	            </ul>
 	            <ul class="nav navbar-nav navbar-right">
-	                <li><a href="#">Remove crime markers :)</a></li>
+	                <li><button onclick="removeCrimeMap()">Remove crime markers :)</button></li>
 	            </ul>
 	        </div>
 	    </div>
@@ -243,9 +243,10 @@
                                             icon: "icon/offices/house2.png"
                                         });
                                         marker.addListener('click', function() {
-                                            //map.setZoom(14);
                                             this.setIcon("icon/offices/house3.png");
                                             this.setAnimation(google.maps.Animation.BOUNCE);
+                                            var node = document.getElementById("long" + this.getPosition().lat());
+                                            node.setAttribute("fill", "purple");
                                         });
                                         dataArray.push([1, response.data[i][19], response.data[i][20], response.data[i][14]]);
                                     }
@@ -267,7 +268,8 @@
                                         var marker = new google.maps.Marker({
                                             position: new google.maps.LatLng(response[i].latitude, response[i].longitude),
                                             map: map,
-                                            icon: "icon/battlefield.png"
+                                            icon: "icon/battlefield.png",
+                                            opacity: 0.05
                                         });
                                         dataArray.push([3, response[i].latitude, response[i].longitude, 0]);
                                     }
@@ -287,6 +289,13 @@
 
         };
 
+        // Remove crime markers from google maps
+
+        function removeCrimeMap() {
+            console.log(document.getElementsByClassName("crime"));
+        }
+
+
 
 
         // SCATTER PLOT lOGIC
@@ -300,7 +309,7 @@
             dataset[0] := digit that indicates to which dataset belongs the next fields
             dataset[1] := latitude
             dataset[2] := longitude
-            dataset[3] := filled with 0, for future use
+            dataset[3] := > in house representes phone number
         */
         function drawScatterplot(dataset) {
             // SVG canvas parameters
@@ -357,9 +366,6 @@
                 .data(dataset0)
                 .enter()
                 .append("circle")
-                .attr("id", function(d) {
-                    return d[1];
-                })
                 .attr("class", "police")
                 .attr("cx", function(d){
                     return xScale(d[1]);
@@ -380,6 +386,9 @@
                 .data(dataset1)
                 .enter()
                 .append("circle")
+                .attr("id", function(d) {
+                    return "long" + d[1];
+                })
                 .attr("class", "house")
                 .attr("cx", function(d){
                     return xScale(d[1]);
