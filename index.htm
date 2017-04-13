@@ -55,7 +55,7 @@
 	                <li><a href="#">#Option3</a></li>
 	            </ul>
 	            <ul class="nav navbar-nav navbar-right">
-	                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+	                <li><a href="#">Remove crime markers :)</a></li>
 	            </ul>
 	        </div>
 	    </div>
@@ -87,10 +87,30 @@
                         <li>Orange dot depict Department of Computer Science of University of Illinois.</li>
                         <li>Green dots depict affordable houses.</il>
                         <li>Blue blurred circles depict police station "visible" area.</li>
+                        <li>Red dots depict an individual crime</li>
                         <li>Click on a green dot display phone number.</li>
                         <li>Click on any house on map changes icon color and adds movement.</li>
                     </ul>
                 </p>
+            </div>
+
+            <!--  LOADING PAGE STATUS NOTIFICATION!! -->
+            <div class="col-sm-6 ">
+                <div>
+                    <p style="font-size: 14"> Progress... </p>
+                </div>
+
+                <div class="progress" >
+                    <div id="progressBar" class="progress-bar progress-bar-striped active" role="progressbar"
+                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                        0%
+                    </div>
+                </div>
+
+                <div>
+                    <pre id="mainLog" style="font-size: 14"> Log... </pre>
+                </div>
+
             </div>
         </div>
 	</div>
@@ -121,12 +141,20 @@
             */
             "https://data.illinois.gov/api/views/miqf-743d/rows.json?accessType=DOWNLOAD",
             /*
+                "crimes"
                 linkNumber = 3
+                iconColor := red
+                "Crimes - 2001 to present (recent)"
+
+            */
+            "https://data.cityofchicago.org/resource/6zsd-86xi.json",
+            /*
+                linkNumber = 4
                 Boundaries - Police Districts (current)
             */
             "https://data.cityofchicago.org/api/views/24zt-jpfn/rows.json?accessType=DOWNLOAD",
             /*
-                linkNumber = 4
+                linkNumber = 5
                 Boundaries - Police Beats (current)
             */
             "https://data.cityofchicago.org/api/views/n9it-hstw/rows.json?accessType=DOWNLOAD"
@@ -142,12 +170,26 @@
         var dataArray = []; // used to hold AJAX requests
 
         /*
+
+        */
+        function progress(percent, message) {
+            document.getElementById("progressBar").setAttribute("aria-valuenow", "" + percent + "");
+            document.getElementById("progressBar").setAttribute("style", "width:" + percent +"%");
+            document.getElementById("progressBar").innerHTML = percent + "%";
+            var curLog = document.getElementById("mainLog").innerHTML;
+            curLog += "\n" + message;
+            document.getElementById("mainLog").innerHTML = curLog;
+
+        }
+
+        /*
             The most code was placed in this function (drawMap) because seems that
             google put here an environment to handle its maps API
         */
         // Callback function from GoogleMap API
         /* ------------------------------------------------------------------------*/
         function drawMap() {
+            progress(50, "Drawing google maps");
             var latLngDeptComp = {lat: 41.8708, lng: -87.6505}; //    Department of Computer Science – University of Illinois coords
 
             var map = new google.maps.Map(document.getElementById("map"), {
@@ -175,6 +217,7 @@
                             switch(linkNumber) {
                                 // Markers for Police_Stations.json
                                 case 0:
+                                    progress(65, "Requesting police data.");
                                     response = JSON.parse(this.responseText);
                                     for(var i = 0; i < response.data.length; i++) {
                                         var coord = response.data[i][22]
@@ -184,13 +227,13 @@
                                             map: map,
                                             icon: "icon/offices/police.png"
                                         });
-
                                         dataArray.push([0, coord[1], coord[2], 0]);
                                     }
                                     break;
 
                                 // Markers for Affordable_Rental_Housing_Developments.json
                                 case 1:
+                                    progress(70, "Requesting houses data.");
                                     response = JSON.parse(this.responseText);
                                     for(var i = 0; i < response.data.length; i++) {
                                         var coordinate = new google.maps.LatLng(response.data[i][19], response.data[i][20]);
@@ -207,6 +250,28 @@
                                         dataArray.push([1, response.data[i][19], response.data[i][20], response.data[i][14]]);
                                     }
                                     break;
+
+                                // Markers for SSMMA_Median_Home_Value.json
+                                case 2:
+                                    break;
+
+                                // Markers for Crimes - 2001 to present (recent)
+                                case 3:
+                                    progress(80, "Requesting crime data.")
+                                    response = JSON.parse(this.responseText);
+                                    /*
+                                        Only are plotted dataset entries that are multiple of 3, due
+                                        to do a responsive app.
+                                    */
+                                    for(var i = 0; i < response.length; ++i) {
+                                        var marker = new google.maps.Marker({
+                                            position: new google.maps.LatLng(response[i].latitude, response[i].longitude),
+                                            map: map,
+                                            icon: "icon/battlefield.png"
+                                        });
+                                        dataArray.push([3, response[i].latitude, response[i].longitude, 0]);
+                                    }
+                                    break;
                         }
                     }
                 };
@@ -216,8 +281,12 @@
 
             putMarkersOfURL(0);
             putMarkersOfURL(1);
+            putMarkersOfURL(3);
             drawScatterplot(dataArray);
+            progress(100, "Ready!");
+
         };
+
 
 
         // SCATTER PLOT lOGIC
@@ -234,7 +303,6 @@
             dataset[3] := filled with 0, for future use
         */
         function drawScatterplot(dataset) {
-
             // SVG canvas parameters
             var w = 700;
             var h = 600;
@@ -243,7 +311,7 @@
             // adding SVG to DOM
             var svg = d3.select("svg")
                             .attr("width", w)
-                            .attr("height", h)
+                            .attr("height", h);
 
             // making a scale bijection between dataset and SVG canvas size
             var xScale = d3.scaleLinear()
@@ -251,7 +319,7 @@
                                 d3.min(dataset, function(d) { return d[1]; }),
                                 d3.max(dataset, function(d) { return d[1]; })
                             ])
-                                            .range([padding, w - padding*2]);
+                            .range([padding, w - padding*2]);
 
             var yScale = d3.scaleLinear()
                             .domain([
@@ -265,7 +333,7 @@
             var dataset0 = []; // police data
             var dataset1 = []; // house data
             var dataset2 = []; // ??
-            var dataset3 = []; // ??
+            var dataset3 = []; // crime data
             for(var i = 0; i < dataset.length; i++) {
                 switch(dataset[i][0]) {
                     case 0:
@@ -283,18 +351,15 @@
                 }
             }
 
-            console.log(dataset1)
-
-
-
-
-
             // Draws police security incidence area (blue)
             d3.select("body").select("svg")
                 .selectAll("circle.police")
                 .data(dataset0)
                 .enter()
                 .append("circle")
+                .attr("id", function(d) {
+                    return d[1];
+                })
                 .attr("class", "police")
                 .attr("cx", function(d){
                     return xScale(d[1]);
@@ -327,14 +392,34 @@
                 })
                 .attr("fill", "rgb(103, 197, 71)");
 
+            // Draws recent crimes (red dots)
+            d3.select("body").select("svg")
+                .selectAll("circle.crime")
+                .data(dataset3)
+                .enter()
+                .append("circle")
+                .attr("class", "crime")
+                .attr("cx", function(d){
+                    return xScale(d[1]);
+                })
+                .attr("cy", function(d){
+                    return yScale(d[2]);
+                })
+                .attr("r", function(d){
+                    return 1;
+                })
+                .attr("fill", "rgb(192, 54, 57)");
+
             // Draw University Location
             d3.select("body").select("svg")
                 .append("circle")
+                .attr("id", "university")
                 .attr("cx", xScale(41.8708))
                 .attr("cy", yScale(-87.6505))
                 .attr("r", "5")
                 .attr("fill", "rgb(255, 137, 34)");
 
+            // Adds alert with phone number to all houses!
             d3.selectAll("circle.house").on("click",function(d,i) {
                 alert("Phone: " + d[3]);
             })
