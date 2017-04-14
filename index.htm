@@ -10,6 +10,7 @@
     <script src="js\jquery-3.2_0.js"></script>
     <script src="js\bootstrap.js"></script>
     <script src= 'js\d3.js'></script>
+    <script src= "js\climateData.js"></script>
 
 
     <style>
@@ -286,20 +287,39 @@
                         // Markers for climate stations
                         case 4:
                             progress(90, "Requesting climate data");
-                            putMarkersOfURLClimate();
+
+                            var marker = new google.maps.Marker({
+                                position: new google.maps.LatLng(41.8008, -87.5903),
+                                map: map
+
+                            });
+
+                            var marker2 = new google.maps.Marker({
+                                position: new google.maps.LatLng(41.6598, -87.5529),
+                                map: map
+
+                            });
+                            var marker3 = new google.maps.Marker({
+                                position: new google.maps.LatLng(42.0019, -87.6985),
+                                map: map
+
+                            });
+                            var marker4 = new google.maps.Marker({
+                                position: new google.maps.LatLng(41.9957, -87.6918),
+                                map: map
+
+                            });
+
                             break;
                     }
             }
 
-            function putMarkersOfURLClimate() {
-                var response;
-                var request = new XMLHttpRequest();
-                request.open("GET", " https://www.ncdc.noaa.gov/cdo-web/api/v2/datasets", false);
-                request.setRequestHeader("token", "yPamBBFyXheSqvqPtnIXIdrHeumciHmr");
-                request.send();
-                response = JSON.parse(request.responseText);
-                console.log(response);
-            }
+            /*
+                Para el clima se deben hacer varias solicitudes, una por cada estación
+                de interés.
+                See comments in js/climateData.js to understand how were selected
+                these wheater stations.
+            */
 
             putMarkersOfURL(0);
             putMarkersOfURL(1);
