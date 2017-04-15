@@ -30,60 +30,43 @@ function putMarkersClimate() {
                      60804, 60827 ];
 
     var request = new XMLHttpRequest();
-    var data = [];
-    var basicData = [];
-    var intervalDate = [];
+    var data = []; // holds all parsed data obtained from request
+    var filteredData = []; // holds data without repeated stations
+
+    var basicData = []; // 4 fields: datasetID = 4, latitude, longitude, stationID
+    var intervalDate = []; // 3 fields: stationID, mindate, maxdate
     var response;
-/*
-     request.open("GET", "https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datasetid=GSOM&stationid=GHCND:US1ILCK0014&units=standard&startdate=2017-01-01&enddate=2017-01-31", false);
-     request.setRequestHeader("token", "yPamBBFyXheSqvqPtnIXIdrHeumciHmr");
-     request.send();
-     console.log(request.responseText);
-     console.log("1--------------------------------------------------------------------------------------------");
 
-     request.open("GET", "https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datasetid=GSOM&stationid=GHCND:US1ILCK0082&units=standard&startdate=2017-01-01&enddate=2017-01-31", false);
-     request.setRequestHeader("token", "yPamBBFyXheSqvqPtnIXIdrHeumciHmr");
-     request.send();
-     console.log(request.responseText);
-     console.log("2--------------------------------------------------------------------------------------------")
 
-     request.open("GET", "https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datasetid=GSOM&stationid=GHCND:US1ILCK0094&units=standard&startdate=2017-01-01&enddate=2017-01-31", false);
-     request.setRequestHeader("token", "yPamBBFyXheSqvqPtnIXIdrHeumciHmr");
-     request.send();
-     console.log(request.responseText);
-     console.log("3--------------------------------------------------------------------------------------------")
 
-     request.open("GET", "https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datasetid=GSOM&stationid=GHCND:US1ILCK0214&units=standard&startdate=2017-01-01&enddate=2017-01-31", false);
-     request.setRequestHeader("token", "yPamBBFyXheSqvqPtnIXIdrHeumciHmr");
-     request.send();
-     console.log(request.responseText);
-     console.log("4--------------------------------------------------------------------------------------------")
-*/
 
-    /*
-        Make AJAX requests for each zipCode available in Chicago. Each iteration
-        requests for available wheater stations per location (zipCode).
-    */
     /*
         To avoid make this request each time that app is running, after this comment
         we provide the stations...
     */
-
     /*
+        Make AJAX requests for each zipCode available in Chicago. Each iteration
+        requests for available wheater stations per location (zipCode).
+    */
     for(var i = 0; i < zipCodes.length; ++i) {
          request.open("GET", "https://www.ncdc.noaa.gov/cdo-web/api/v2/stations?locationid=ZIP:" + zipCodes[i], false);
          request.setRequestHeader("token", "yPamBBFyXheSqvqPtnIXIdrHeumciHmr");
          request.send();
          response = JSON.parse(request.responseText);
-         // Only first station for each zip code is pushed.
-         data.push(response.results[0]);
+         // Only first station for each zip code is pushed
+         console.log(response.results);
+         for(var j = 0; j < response.results.length; ++j)
+         {
+             var segment = response.results[j].maxdate.split("-");
+             if(segment[0] == "2017")
+                data.push(response.results[j]);
+         }
          console.log(i);
     }
 
     console.log(data);
 
     // There are stations that are repeated. This program bring out duplicates.
-    var filteredData = [];
     filteredData.push(data[0]);
     for(var i = 1; i < data.length; ++i) {
         var passedAll = false;
@@ -103,17 +86,23 @@ function putMarkersClimate() {
         }
 
     }
-    /*
+    console.log(filteredData);
+
+
     for(var i = 0; i < basicData.length; ++i) {
         console.log(basicData[i][0] + " " + basicData[i][1] + " " + basicData[i][2] + " " + basicData[i][3]);
     }
-    */
 
-    /*
+
+
     for(var i = 0; i < intervalDate.length; i++) {
         console.log(intervalDate[i]);
     }
 
+}
+
+
+    /*
     request.open("GET",
     "https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datasetid=PRECIP_15&stationid=COOP:010008&units=metric&startdate=2010-05-01&enddate=2010-05-31", false);
     request.setRequestHeader("token", "yPamBBFyXheSqvqPtnIXIdrHeumciHmr");
@@ -121,11 +110,38 @@ function putMarkersClimate() {
     //response = JSON.parse(request.responseText);
     */
 
-/*
-    // Refined this is the stations on chicago an its data coverage. I take only
-    // that have support for this year.
+    /*
+         request.open("GET", "https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datasetid=GSOM&stationid=GHCND:US1ILCK0014&units=standard&startdate=2017-01-01&enddate=2017-01-31", false);
+         request.setRequestHeader("token", "yPamBBFyXheSqvqPtnIXIdrHeumciHmr");
+         request.send();
+         console.log(request.responseText);
+         console.log("1--------------------------------------------------------------------------------------------");
+
+         request.open("GET", "https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datasetid=GSOM&stationid=GHCND:US1ILCK0082&units=standard&startdate=2017-01-01&enddate=2017-01-31", false);
+         request.setRequestHeader("token", "yPamBBFyXheSqvqPtnIXIdrHeumciHmr");
+         request.send();
+         console.log(request.responseText);
+         console.log("2--------------------------------------------------------------------------------------------")
+
+         request.open("GET", "https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datasetid=GSOM&stationid=GHCND:US1ILCK0094&units=standard&startdate=2017-01-01&enddate=2017-01-31", false);
+         request.setRequestHeader("token", "yPamBBFyXheSqvqPtnIXIdrHeumciHmr");
+         request.send();
+         console.log(request.responseText);
+         console.log("3--------------------------------------------------------------------------------------------")
+
+         request.open("GET", "https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datasetid=GSOM&stationid=GHCND:US1ILCK0214&units=standard&startdate=2017-01-01&enddate=2017-01-31", false);
+         request.setRequestHeader("token", "yPamBBFyXheSqvqPtnIXIdrHeumciHmr");
+         request.send();
+         console.log(request.responseText);
+         console.log("4--------------------------------------------------------------------------------------------")
+    */
+
+    /*
+        // Refined this is the stations on chicago an its data coverage. I take only
+        // that have support for this year.
 
 
+    // taked by hand from below list this stations are the only that have updated (2017-04) data
     [ "NEXRAD:KDVN", "1995-01-09", "2017-04-13" ]
     [ "NEXRAD:KGRR", "1995-09-21", "2017-04-13" ]
     [ "GHCND:US1ILCK0014", "2007-01-01", "2017-04-12" ]
@@ -134,10 +150,7 @@ function putMarkersClimate() {
     [ "GHCND:US1ILCK0214", "2013-04-01", "2017-04-12" ]
 
 
-
-
-
-
+    // copied from output console after run filter loop
      [ "COOP:111549", "1958-11-01", "2015-11-01" ]
      [ "COOP:116624", "2002-12-01", "2003-07-01" ]
      [ "GHCND:US1ILDP0099", "2011-04-01", "2012-04-01" ]
@@ -173,14 +186,11 @@ function putMarkersClimate() {
      [ "GHCND:US1ILCK0214", "2013-04-01", "2017-04-12" ]
      [ "GHCND:US1ILCK0238", "2014-04-01", "2016-11-29" ]
      [ "COOP:111648", "1933-11-01", "1959-05-01" ]
-*/
-
-
-
-
+     */
 
 
 /*
+    copied from "DataSet\Wheater\ghcnd-stations.txt"
     var stationsID = [
         [US1ILCK0010  41.8798  -87.6823  181.1 IL CHICAGO 3.0 N]
         [US1ILCK0014  41.8008  -87.5903  182.9 IL CHICAGO 5.5 ESE]
@@ -221,8 +231,3 @@ function putMarkersClimate() {
     ]
 
     */
-
-
-
-
-}

@@ -166,7 +166,8 @@ function drawMap() {
                 // Markers for climate stations
                 case 4:
                     progress(90, "Requesting climate data");
-
+                    putMarkersClimate();
+/*
                     var marker = new google.maps.Marker({
                         position: new google.maps.LatLng(41.8008, -87.5903),
                         map: map
@@ -188,6 +189,7 @@ function drawMap() {
                         map: map
 
                     });
+                    */
                     break;
             }
     }
@@ -199,11 +201,11 @@ function drawMap() {
         these wheater stations.
     */
 
-    putMarkersOfURL(0);
-    putMarkersOfURL(1);
-    putMarkersOfURL(3);
+    //putMarkersOfURL(0);
+    //putMarkersOfURL(1);
+    //putMarkersOfURL(3);
     putMarkersOfURL(4);
-    drawScatterplot(dataArray);
+    //drawScatterplot(dataArray);
     progress(100, "Ready!");
 
 };
