@@ -55,8 +55,21 @@ var url = [
     dataArray[1] := latitude
     dataArray[2] := longitude
     dataArray[3] := filled with 0, for future use
+
+    All data must reside in the same array to compute correctly the scales to scatterplot...
 */
 var dataArray = []; // used to hold AJAX requests
+
+/*
+    dataArray is splitted again in its component dataset to perfom calculations
+    and drawin on scatterplot more clearly.
+*/
+var dataset0 = []; // police data
+var dataset1 = []; // house data
+var dataset2 = []; // ??
+var dataset3 = []; // crime data
+var dataset4 = []; // climateStations data
+
 
 /*
     Progress bar and log box behavior
@@ -156,7 +169,7 @@ function drawMap() {
                             position: new google.maps.LatLng(response[i].latitude, response[i].longitude),
                             map: map,
                             icon: "icon/battlefield.png",
-                            opacity: 0.05
+                            opacity: 0.2
                         });
                         if(!(response[i].latitude === undefined))
                             dataArray.push([3, response[i].latitude, response[i].longitude, 0]);
@@ -166,30 +179,15 @@ function drawMap() {
                 // Markers for climate stations
                 case 4:
                     progress(90, "Requesting climate data");
-                    putMarkersClimate();
-/*
-                    var marker = new google.maps.Marker({
-                        position: new google.maps.LatLng(41.8008, -87.5903),
-                        map: map
-
-                    });
-
-                    var marker2 = new google.maps.Marker({
-                        position: new google.maps.LatLng(41.6598, -87.5529),
-                        map: map
-
-                    });
-                    var marker3 = new google.maps.Marker({
-                        position: new google.maps.LatLng(42.0019, -87.6985),
-                        map: map
-
-                    });
-                    var marker4 = new google.maps.Marker({
-                        position: new google.maps.LatLng(41.9957, -87.6918),
-                        map: map
-
-                    });
-                    */
+                    var stations = getUpdatedStations();
+                    for(var i = 0; i < stations.length; ++i) {
+                        var marker = new google.maps.Marker({
+                            position: new google.maps.LatLng(stations[i][1], stations[i][2]),
+                            map: map,
+                            icon: "icon/radar.png"
+                        });
+                        dataArray.push([4, stations[i][1], stations[i][2], stations[i][3]]);
+                    }
                     break;
             }
     }
@@ -201,11 +199,11 @@ function drawMap() {
         these wheater stations.
     */
 
-    //putMarkersOfURL(0);
-    //putMarkersOfURL(1);
-    //putMarkersOfURL(3);
+    putMarkersOfURL(0);
+    putMarkersOfURL(1);
+    putMarkersOfURL(3);
     putMarkersOfURL(4);
-    //drawScatterplot(dataArray);
+    drawScatterplot(dataArray);
     progress(100, "Ready!");
 
 };
@@ -221,6 +219,29 @@ function prinDataArray() {
 }
 
 
+
+// divide dataset in pieces. Each piece is data about specific dataset
+function divideDatasets(dataset) {
+    for(var i = 0; i < dataset.length; i++) {
+        switch(dataset[i][0]) {
+            case 0:
+                dataset0.push(dataset[i]);
+                break;
+            case 1:
+                dataset1.push(dataset[i]);
+                break;
+            case 2:
+                dataset2.push(dataset[i]);
+                break;
+            case 3:
+                dataset3.push(dataset[i]);
+                break;
+            case 4:
+                dataset4.push(dataset[i]);
+                break;
+        }
+    }
+}
 
 // SCATTER PLOT lOGIC
 /* -----------------------------------------------------------------------*/
@@ -240,6 +261,8 @@ function drawScatterplot(dataset) {
     var w = 700;
     var h = 600;
     var padding = 40;
+
+     divideDatasets(dataset);
 
     // adding SVG to DOM
     var svg = d3.select("svg")
@@ -262,28 +285,6 @@ function drawScatterplot(dataset) {
                     .range([h - padding, padding]);
 
 
-    // divide dataset in pieces. Each piece is data about specific dataset
-    var dataset0 = []; // police data
-    var dataset1 = []; // house data
-    var dataset2 = []; // ??
-    var dataset3 = []; // crime data
-    for(var i = 0; i < dataset.length; i++) {
-        switch(dataset[i][0]) {
-            case 0:
-                dataset0.push(dataset[i]);
-                break;
-            case 1:
-                dataset1.push(dataset[i]);
-                break;
-            case 2:
-                dataset2.push(dataset[i]);
-                break;
-            case 3:
-                dataset3.push(dataset[i]);
-                break;
-        }
-    }
-
     // Draws police security incidence area (blue)
     d3.select("body").select("svg")
         .selectAll("circle.police")
@@ -301,7 +302,7 @@ function drawScatterplot(dataset) {
             return 50;
         })
         .attr("fill", "rgb(56, 117, 215)")
-        .attr("opacity", "0.5")
+        .attr("opacity", "0.4")
         .attr("filter", "url(#blur)");
 
     // Draws possible house dots (green)
