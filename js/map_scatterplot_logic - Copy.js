@@ -128,12 +128,7 @@ function drawMap() {
                             icon: "icon/police.png"
                         });
                         if(!(response.data[i][22][1] === undefined))
-                            dataArray.push({
-                                type: 0,
-                                lat: response.data[i][22][1],
-                                lon: response.data[i][22][2],
-                                add: {}
-                            });
+                            dataArray.push([0, response.data[i][22][1], response.data[i][22][2], 0]);
                     }
                     break;
 
@@ -153,13 +148,7 @@ function drawMap() {
                             var node = document.getElementById("long" + this.getPosition().lat());
                             node.setAttribute("fill", "purple");
                         });
-                        if(!(response.data[i][19] === undefined))
-                            dataArray.push({
-                                type: 1,
-                                lat: response.data[i][19],
-                                lon: response.data[i][20],
-                                pho: response.data[i][14]
-                            });
+                        dataArray.push([1, response.data[i][19], response.data[i][20], response.data[i][14]]);
                     }
                     break;
 
@@ -183,12 +172,7 @@ function drawMap() {
                             opacity: 0.2
                         });
                         if(!(response[i].latitude === undefined))
-                            dataArray.push({
-                                type: 3,
-                                lat: response[i].latitude,
-                                lon: response[i].longitude,
-                                add: {}
-                            });
+                            dataArray.push([3, response[i].latitude, response[i].longitude, 0]);
                     }
                     break;
 
@@ -208,13 +192,7 @@ function drawMap() {
                             map: map,
                             icon: "icon/radar.png"
                         });
-                        dataArray.push({
-                            type: 4,
-                            lat: stations[i][1],
-                            lon: stations[i][2],
-                            add: response
-                        });
-
+                        dataArray.push([4, stations[i][1], stations[i][2], response]);
                     }
                     break;
             }
@@ -243,7 +221,7 @@ function printDataArray() {
 // divide dataset in pieces. Each piece is data about specific dataset
 function divideDatasets(dataset) {
     for(var i = 0; i < dataset.length; i++) {
-        switch(dataset[i].type) {
+        switch(dataset[i][0]) {
             case 0:
                 dataset0.push(dataset[i]);
                 break;
@@ -284,6 +262,7 @@ function drawScatterplot(dataset) {
 
      divideDatasets(dataset);
 
+
     // adding SVG to DOM
     var svg = d3.select("svg")
                     .attr("width", w)
@@ -292,33 +271,31 @@ function drawScatterplot(dataset) {
     // making a scale bijection between dataset and SVG canvas size
     var xScale = d3.scaleLinear()
                     .domain([
-                        d3.min(dataset, function(d) { return d.lat; }),
-                        d3.max(dataset, function(d) { return d.lat; })
+                        d3.min(dataset, function(d) { return d[1]; }),
+                        d3.max(dataset, function(d) { return d[1]; })
                     ])
                     .range([padding, w - padding*2]);
 
     var yScale = d3.scaleLinear()
                     .domain([
-                        d3.min(dataset, function(d) { return d.lon; }),
-                        d3.max(dataset, function(d) { return d.lon; })
+                        d3.min(dataset, function(d) { return d[2]; }),
+                        d3.max(dataset, function(d) { return d[2]; })
                     ])
                     .range([h - padding, padding]);
 
-    for(var i = 0; i < dataset0.length; ++i)
-        console.log(dataset0[i])
 
     // Draws police security incidence area (blue)
     d3.select("body").select("svg")
-        .selectAll("circle")
+        .selectAll("circle.police")
         .data(dataset0)
         .enter()
         .append("circle")
         .attr("class", "police")
         .attr("cx", function(d){
-            return xScale(d.lat);
+            return xScale(d[1]);
         })
         .attr("cy", function(d){
-            return yScale(d.lon);
+            return yScale(d[2]);
         })
         .attr("r", function(d){
             return 50;
@@ -334,14 +311,14 @@ function drawScatterplot(dataset) {
         .enter()
         .append("circle")
         .attr("id", function(d) {
-            return "long" + d.lat;
+            return "long" + d[1];
         })
         .attr("class", "house")
         .attr("cx", function(d){
-            return xScale(d.lat);
+            return xScale(d[1]);
         })
         .attr("cy", function(d){
-            return yScale(d.lon);
+            return yScale(d[2]);
         })
         .attr("r", function(d){
             return 3;
@@ -356,10 +333,10 @@ function drawScatterplot(dataset) {
         .append("circle")
         .attr("class", "crime")
         .attr("cx", function(d){
-            return xScale(d.lat);
+            return xScale(d[1]);
         })
         .attr("cy", function(d){
-            return yScale(d.lon);
+            return yScale(d[2]);
         })
         .attr("r", function(d){
             return 1;
@@ -377,7 +354,7 @@ function drawScatterplot(dataset) {
 
     // Adds alert with phone number to all houses!
     d3.selectAll("circle.house").on("click",function(d,i) {
-        alert("Phone: " + d.pho);
+        alert("Phone: " + d[3]);
     })
 
 
