@@ -117,8 +117,8 @@ function getUpdatedStations() {
                 [ 4, 41.78611, -87.75222, "GHCND:USW00014819" ],
                 [ 4, 42.0019, -87.6985, "GHCND:US1ILCK0094" ],
                 [ 4, 41.9957, -87.6918, "GHCND:US1ILCK0214" ],
-                [ 4, 41.9177, -87.8037, "GHCND:US1ILCK0243" ],
-                [ 4, 41.8231, -87.7666, "GHCND:US1ILCK0100" ]
+                [ 4, 41.9177, -87.8037, "GHCND:US1ILCK0243" ]
+                // [ 4, 41.8231, -87.7666, "GHCND:US1ILCK0100" ] // Data available until february
             ];
 }
 

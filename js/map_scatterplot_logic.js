@@ -35,8 +35,9 @@ var url = [
         iconColor := yellow
         "??"
         token := yPamBBFyXheSqvqPtnIXIdrHeumciHmr
+        This url is incomplete!!! I append the left string in switch case 4
     */
-    "https://www.ncdc.noaa.gov/cdo-web/api/v2/dataset",
+    "https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datasetid=GHCND",
     /*
         linkNumber = 5
         Boundaries - Police Districts (current)
@@ -51,10 +52,10 @@ var url = [
 
 /*
     used to hold AJAX request. Has the following four fields
-    dataArray[0] := digit that indicates to which dataset belongs the next fields
-    dataArray[1] := latitude
-    dataArray[2] := longitude
-    dataArray[3] := filled with 0, for future use
+    dataArray.pos(0) := digit that indicates to which dataset belongs the next fields
+    dataArray.pos(1) := latitude
+    dataArray.pos(2) := longitude
+    dataArray.pos(3) := filled with 0, for future use
 
     All data must reside in the same array to compute correctly the scales to scatterplot...
 */
@@ -147,8 +148,7 @@ function drawMap() {
                             var node = document.getElementById("long" + this.getPosition().lat());
                             node.setAttribute("fill", "purple");
                         });
-                        if(!(response.data[i][19] === undefined))
-                            dataArray.push([1, response.data[i][19], response.data[i][20], response.data[i][14]]);
+                        dataArray.push([1, response.data[i][19], response.data[i][20], response.data[i][14]]);
                     }
                     break;
 
@@ -180,24 +180,23 @@ function drawMap() {
                 case 4:
                     progress(90, "Requesting climate data");
                     var stations = getUpdatedStations();
+                    request = new XMLHttpRequest();
                     for(var i = 0; i < stations.length; ++i) {
+                        //request data for each climate station
+                        request.open("GET", url[4] + "&stationid=" + stations[i][3] + "&units=standard&startdate=2017-04-10&enddate=2017-04-12", false);
+                        request.setRequestHeader("token", "yPamBBFyXheSqvqPtnIXIdrHeumciHmr");
+                        request.send();
+                        response = JSON.parse(request.responseText);
                         var marker = new google.maps.Marker({
                             position: new google.maps.LatLng(stations[i][1], stations[i][2]),
                             map: map,
                             icon: "icon/radar.png"
                         });
-                        dataArray.push([4, stations[i][1], stations[i][2], stations[i][3]]);
+                        dataArray.push([4, stations[i][1], stations[i][2], response]);
                     }
                     break;
             }
     }
-
-    /*
-        Para el clima se deben hacer varias solicitudes, una por cada estación
-        de interés.
-        See comments in js/climateData.js to understand how were selected
-        these wheater stations.
-    */
 
     putMarkersOfURL(0);
     putMarkersOfURL(1);
@@ -208,7 +207,7 @@ function drawMap() {
 
 };
 
-function prinDataArray() {
+function printDataArray() {
     var counter = 0;
     for(var i = 0; i < dataArray.length; ++i) {
         if(dataArray[i][1] === undefined)
@@ -217,7 +216,6 @@ function prinDataArray() {
     }
     console.log("undefined elements: " + counter);
 }
-
 
 
 // divide dataset in pieces. Each piece is data about specific dataset
@@ -263,6 +261,7 @@ function drawScatterplot(dataset) {
     var padding = 40;
 
      divideDatasets(dataset);
+
 
     // adding SVG to DOM
     var svg = d3.select("svg")
