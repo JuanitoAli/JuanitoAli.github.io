@@ -1,5 +1,3 @@
-
-
 // url to datasets...
 var url = [
     /*
@@ -61,7 +59,7 @@ var url = [
 var dataArray = []; // used to hold AJAX requests
 
 /*
-    Progress bar a log box behavior
+    Progress bar and log box behavior
 */
 function progress(percent, message) {
     document.getElementById("progressBar").setAttribute("aria-valuenow", "" + percent + "");
@@ -70,7 +68,6 @@ function progress(percent, message) {
     var curLog = document.getElementById("mainLog").innerHTML;
     curLog += "\n" + message;
     document.getElementById("mainLog").innerHTML = curLog;
-
 }
 
 /*
@@ -111,14 +108,13 @@ function drawMap() {
                     progress(65, "Requesting police data.");
                     response = JSON.parse(request.responseText);
                     for(var i = 0; i < response.data.length; i++) {
-                        var coord = response.data[i][22]
-                        var latLng = new google.maps.LatLng(coord[1], coord[2]);
                         var marker = new google.maps.Marker({
-                            position: latLng,
+                            position: new google.maps.LatLng(response.data[i][22][1], response.data[i][22][2]),
                             map: map,
                             icon: "icon/police.png"
                         });
-                        dataArray.push([0, coord[1], coord[2], 0]);
+                        if(!(response.data[i][22][1] === undefined))
+                            dataArray.push([0, response.data[i][22][1], response.data[i][22][2], 0]);
                     }
                     break;
 
@@ -127,9 +123,8 @@ function drawMap() {
                     progress(70, "Requesting houses data.");
                     response = JSON.parse(request.responseText);
                     for(var i = 0; i < response.data.length; i++) {
-                        var coordinate = new google.maps.LatLng(response.data[i][19], response.data[i][20]);
                         var marker = new google.maps.Marker({
-                            position: coordinate,
+                            position: new google.maps.LatLng(response.data[i][19], response.data[i][20]),
                             map: map,
                             icon: "icon/house2.png"
                         });
@@ -139,7 +134,8 @@ function drawMap() {
                             var node = document.getElementById("long" + this.getPosition().lat());
                             node.setAttribute("fill", "purple");
                         });
-                        dataArray.push([1, response.data[i][19], response.data[i][20], response.data[i][14]]);
+                        if(!(response.data[i][19] === undefined))
+                            dataArray.push([1, response.data[i][19], response.data[i][20], response.data[i][14]]);
                     }
                     break;
 
@@ -162,7 +158,8 @@ function drawMap() {
                             icon: "icon/battlefield.png",
                             opacity: 0.05
                         });
-                        dataArray.push([3, response[i].latitude, response[i].longitude, 0]);
+                        if(!(response[i].latitude === undefined))
+                            dataArray.push([3, response[i].latitude, response[i].longitude, 0]);
                     }
                     break;
 
@@ -191,7 +188,6 @@ function drawMap() {
                         map: map
 
                     });
-
                     break;
             }
     }
@@ -212,13 +208,15 @@ function drawMap() {
 
 };
 
-// Remove crime markers from google maps
-
-function removeCrimeMap() {
-    console.log(document.getElementsByClassName("crime"));
+function prinDataArray() {
+    var counter = 0;
+    for(var i = 0; i < dataArray.length; ++i) {
+        if(dataArray[i][1] === undefined)
+            counter++;
+        console.log(dataArray[i]);
+    }
+    console.log("undefined elements: " + counter);
 }
-
-
 
 
 
