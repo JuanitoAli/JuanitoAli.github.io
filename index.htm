@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css\bootstrap.css">
     <script src="js\jquery-3.2_0.js"></script>
     <script src="js\bootstrap.js"></script>
-    <script src= 'js\d3.js'></script>
+    <script src= "js\d3.js"></script>
     <script src= "js\climateData.js"></script>
 
 
@@ -213,7 +213,7 @@
                 map: map,
                 title: 'Chicago University',
                 animation: google.maps.Animation.BOUNCE,
-                icon: "icon/education/university2.png"
+                icon: "icon/university2.png"
             });
 
             // JSON loading via ajax request
@@ -234,7 +234,7 @@
                                 var marker = new google.maps.Marker({
                                     position: latLng,
                                     map: map,
-                                    icon: "icon/offices/police.png"
+                                    icon: "icon/police.png"
                                 });
                                 dataArray.push([0, coord[1], coord[2], 0]);
                             }
@@ -249,10 +249,10 @@
                                 var marker = new google.maps.Marker({
                                     position: coordinate,
                                     map: map,
-                                    icon: "icon/offices/house2.png"
+                                    icon: "icon/house2.png"
                                 });
                                 marker.addListener('click', function() {
-                                    this.setIcon("icon/offices/house3.png");
+                                    this.setIcon("icon/house3.png");
                                     this.setAnimation(google.maps.Animation.BOUNCE);
                                     var node = document.getElementById("long" + this.getPosition().lat());
                                     node.setAttribute("fill", "purple");
