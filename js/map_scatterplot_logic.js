@@ -304,9 +304,6 @@ function drawScatterplot(dataset) {
                     ])
                     .range([h - padding, padding]);
 
-    for(var i = 0; i < dataset0.length; ++i)
-        console.log(dataset0[i])
-
     // Draws police security incidence area (blue)
     d3.select("body").select("svg")
         .selectAll("circle")
