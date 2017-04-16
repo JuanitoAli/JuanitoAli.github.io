@@ -525,7 +525,14 @@ function drawScatterplot(dataset) {
 
     // Adds alert with phone number to all houses!
     d3.selectAll("circle.house").on("click",function(d,i) {
-        alert("Phone: " + d.pho);
+        alert("Phone: " + d.pho + "\n"
+                + "Internal id: " + d.key + "\n" + "\n"
+                + "For information on rents, income requirements and availability, " + "\n"
+                + "contact each property directly. For information on other affordable " + "\n"
+                + "rental properties in Chicago and Illinois, call (877) 428-8844, " + "\n"
+                + "or visit www.ILHousingSearch.org. "
+            );
+
     })
 
 
