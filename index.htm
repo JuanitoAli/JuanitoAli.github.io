@@ -13,6 +13,7 @@
     <script src="js\map_scatterplot_logic.js"></script>
     <script src="js\updatedStations.js"></script>
     <script src="js\stats.js"></script>
+    <script src="js\offlineData.js"></script>
 
     <style>
 		/* GoogleMap specs */
@@ -48,7 +49,11 @@
 	            <ul class="nav navbar-nav">
 	                <li class="active"><a href="#">Home</a></li>
                     <!-- Global View -->
-	                <li><a href="#">Global View</a></li>
+	                <li>
+                        <a href="#">
+                            <input type="checkbox" id="boolOffline" checked> Offline Data
+                        </a>
+                    </li>
 	                <li><a href="#">#Option2</a></li>
 	                <li><a href="#">#Option3</a></li>
 	            </ul>

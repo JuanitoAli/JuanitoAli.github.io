@@ -71,6 +71,8 @@ var dataset2 = []; // ??
 var dataset3 = []; // crime data
 var dataset4 = []; // climateStations data
 
+var loadOnlineData = true;
+
 /*
     Here are stored possible room candidates.
 */
@@ -118,14 +120,19 @@ function drawMap() {
     // puts markers of coordinates specified in var url
     function putMarkersOfURL(linkNumber) {
             var response;
-            var request = new XMLHttpRequest();
-            request.open("GET", url[linkNumber], false);
-            request.send();
+            if(loadOnlineData) {
+                var request = new XMLHttpRequest();
+                request.open("GET", url[linkNumber], false);
+                request.send();
+            }
             switch(linkNumber) {
                 // Markers for Police_Stations.json
                 case 0:
                     progress(65, "Requesting police data.");
-                    response = JSON.parse(request.responseText);
+                    if(loadOnlineData)
+                        response = JSON.parse(request.responseText);
+                    else
+                        response = loadOffline0();
                     for(var i = 0; i < response.data.length; i++) {
                         var marker = new google.maps.Marker({
                             position: new google.maps.LatLng(response.data[i][22][1], response.data[i][22][2]),
@@ -145,7 +152,10 @@ function drawMap() {
                 // Markers for Affordable_Rental_Housing_Developments.json
                 case 1:
                     progress(70, "Requesting houses data.");
-                    response = JSON.parse(request.responseText);
+                    if(loadOnlineData)
+                        response = JSON.parse(request.responseText);
+                    else
+                        response = loadOffline1();
                     for(var i = 0; i < response.data.length; i++) {
                         var marker = new google.maps.Marker({
                             position: new google.maps.LatLng(response.data[i][19], response.data[i][20]),
@@ -178,7 +188,10 @@ function drawMap() {
                 // Markers for Crimes - 2001 to present (recent)
                 case 3:
                     progress(80, "Requesting crime data.")
-                    response = JSON.parse(request.responseText);
+                    if(loadOnlineData)
+                        response = JSON.parse(request.responseText);
+                    else
+                        response = loadOffline3();
                     /*
                         Only are plotted dataset entries that are multiple of 3, due
                         to do a responsive app.
@@ -204,30 +217,47 @@ function drawMap() {
                 case 4:
                     progress(90, "Requesting climate data");
                     var stations = getUpdatedStations();
-                    request = new XMLHttpRequest();
-                    for(var i = 0; i < stations.length; ++i) {
-                        //request data for each climate station
-                        request.open("GET", url[4] + "&stationid=" + stations[i][3] + "&units=standard&startdate=2017-04-10&enddate=2017-04-12", false);
-                        request.setRequestHeader("token", "yPamBBFyXheSqvqPtnIXIdrHeumciHmr");
-                        request.send();
-                        response = JSON.parse(request.responseText);
-                        var marker = new google.maps.Marker({
-                            position: new google.maps.LatLng(stations[i][1], stations[i][2]),
-                            map: map,
-                            icon: "icon/radar.png"
-                        });
-                        dataArray.push({
-                            type: 4,
-                            lat: stations[i][1],
-                            lon: stations[i][2],
-                            add: response
-                        });
+                    if(loadOnlineData) {
+                        request = new XMLHttpRequest();
+                        for(var i = 0; i < stations.length; ++i) {
+                            //request data for each climate station
+                            request.open("GET", url[4] + "&stationid=" + stations[i][3] + "&units=standard&startdate=2017-04-10&enddate=2017-04-12", false);
+                            request.setRequestHeader("token", "yPamBBFyXheSqvqPtnIXIdrHeumciHmr");
+                            request.send();
+                            response = JSON.parse(request.responseText);
+                            var marker = new google.maps.Marker({
+                                position: new google.maps.LatLng(stations[i][1], stations[i][2]),
+                                map: map,
+                                icon: "icon/radar.png"
+                            });
+                            dataArray.push({
+                                type: 4,
+                                lat: stations[i][1],
+                                lon: stations[i][2],
+                                add: response
+                            });
 
+                        }
+                    } else {
+                        response = loadOffline4();
+                        for(var i = 0; i < stations.length; ++i) {
+                            var marker = new google.maps.Marker({
+                                position: new google.maps.LatLng(stations[i][1], stations[i][2]),
+                                map: map,
+                                icon: "icon/radar.png"
+                            });
+                            dataArray.push({
+                                type: 4,
+                                lat: stations[i][1],
+                                lon: stations[i][2],
+                                add: response
+                            });
+                        }
                     }
                     break;
             }
     }
-
+    loadOnlineStatus();
     putMarkersOfURL(0);
     putMarkersOfURL(1);
     putMarkersOfURL(3);
@@ -235,7 +265,6 @@ function drawMap() {
     drawScatterplot(dataArray);
 
     progress(100, "Ready!");
-    //mainStats(houseList, policeStations, climateStations, crimeList);
     mainStats(dataset1, dataset0, dataset4, dataset3);
 };
 
@@ -271,6 +300,19 @@ function divideDatasets(dataset) {
                 break;
         }
     }
+}
+
+
+/*
+    See if check box is checked. If so, load data present in offlinedata.js.
+    The real offline load is make insde putMarkersOfURL function.
+*/
+function loadOnlineStatus() {
+    var x = document.getElementById("boolOffline");
+    if(x.checked)
+        loadOnlineData = false;
+    else
+        loadOnlineData = true;
 }
 
 // SCATTER PLOT lOGIC

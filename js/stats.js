@@ -122,23 +122,8 @@ function mainStats(houseList, policeStations, climateStations, crimeList) {
     var houseCrimes = 0;                    // stores index in houseLIst of best house in crime issues
     var houseCrimesX = 0;                   // stores index in houseLIst of worst house in crime issues
 
-	console.log(minPolice);
-	console.log(minCrimes);
-	console.log(maxCrimes);
-	console.log(housePolice);
-	console.log(houseCrimes);
-	console.log(houseCrimesX);
-	console.log("----------------------------------");
-
     for(var i = 1; i < houseList.length; ++i) {
         stat = singleStats(houseList[i], policeStations, climateStations, crimeList);
-		console.log(minPolice);
-		console.log(minCrimes);
-		console.log(maxCrimes);
-		console.log(housePolice);
-		console.log(houseCrimes);
-		console.log(houseCrimesX);
-		console.log("----------------------------------");
         if(stat.nearPolice.dist < minPolice) {
             housePolice = i;
             minPolice = stat.nearPolice.dist;
@@ -152,13 +137,6 @@ function mainStats(houseList, policeStations, climateStations, crimeList) {
             maxCrimes = stat.crimesList.length;
         }
     }
-
-	console.log(minPolice);
-	console.log(minCrimes);
-	console.log(maxCrimes);
-	console.log(housePolice);
-	console.log(houseCrimes);
-	console.log(houseCrimesX);
 }
 
 
@@ -1428,8 +1406,3 @@ var data4 = [
 	{ type: 4, lat: 41.9957, lon: -87.6918, add:{} },
 	{ type: 4, lat: 41.9177, lon: -87.8037, add:{} }
 ]
-
-//console.log(getNearest(data0[0],data3))
-//console.log(locationsInRadius(data1[65], 1, data3));
-//console.log(singleStats(data1[26], data0, data4, data3));
-mainStats(candidates, data0, data4, data3);
