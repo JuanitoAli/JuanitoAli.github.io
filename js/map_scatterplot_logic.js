@@ -171,6 +171,7 @@ function drawMap() {
                             var house = findHouse("key" + this.getPosition().lat(), dataset1)
                             candidates.push(house);
                             node.setAttribute("fill", "purple");
+                            node.setAttribute("stroke", "purple");
                             seeSelectedHouses();
                             selectCounter++;
                         });
