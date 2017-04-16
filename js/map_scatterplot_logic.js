@@ -71,6 +71,11 @@ var dataset2 = []; // ??
 var dataset3 = []; // crime data
 var dataset4 = []; // climateStations data
 
+/*
+    Here are stored possible room candidates.
+*/
+var candidates = [];
+
 
 /*
     Progress bar and log box behavior
@@ -153,13 +158,16 @@ function drawMap() {
                             var node = document.getElementById("long" + this.getPosition().lat());
                             node.setAttribute("fill", "purple");
                         });
-                        if(!(response.data[i][19] === undefined))
-                            dataArray.push({
+                        if(!(response.data[i][19] === undefined)) {
+                            var loc = {
                                 type: 1,
                                 lat: response.data[i][19],
                                 lon: response.data[i][20],
                                 pho: response.data[i][14]
-                            });
+                            }
+                            dataArray.push(loc);
+                            candidates.push(loc);
+                        }
                     }
                     break;
 
@@ -225,8 +233,10 @@ function drawMap() {
     putMarkersOfURL(3);
     putMarkersOfURL(4);
     drawScatterplot(dataArray);
-    progress(100, "Ready!");
 
+    progress(100, "Ready!");
+    //mainStats(houseList, policeStations, climateStations, crimeList);
+    mainStats(dataset1, dataset0, dataset4, dataset3);
 };
 
 function printDataArray() {
