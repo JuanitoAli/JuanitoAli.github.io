@@ -71,10 +71,12 @@ var dataset2 = []; // ??
 var dataset3 = []; // crime data
 var dataset4 = []; // climateStations data
 
+var selectCounter = 0;
+
 var loadOnlineData = true;
 
 /*
-    Here are stored possible room candidates.
+    Here are stored possible room candidates. There are selected by user.
 */
 var candidates = [];
 
@@ -163,20 +165,24 @@ function drawMap() {
                             icon: "icon/house2.png"
                         });
                         marker.addListener('click', function() {
-                            this.setIcon("icon/house3.png");
+                            this.setIcon("icon/numbers/number_" + selectCounter + ".png");
                             this.setAnimation(google.maps.Animation.BOUNCE);
-                            var node = document.getElementById("long" + this.getPosition().lat());
+                            var node = document.getElementById("key" + this.getPosition().lat());
+                            var house = findHouse("key" + this.getPosition().lat(), dataset1)
+                            candidates.push(house);
                             node.setAttribute("fill", "purple");
+                            seeSelectedHouses();
+                            selectCounter++;
                         });
                         if(!(response.data[i][19] === undefined)) {
                             var loc = {
                                 type: 1,
                                 lat: response.data[i][19],
                                 lon: response.data[i][20],
-                                pho: response.data[i][14]
+                                pho: response.data[i][14],
+                                key: "key" + response.data[i][19]
                             }
                             dataArray.push(loc);
-                            candidates.push(loc);
                         }
                     }
                     break;
@@ -265,8 +271,55 @@ function drawMap() {
     drawScatterplot(dataArray);
 
     progress(100, "Ready!");
-    mainStats(dataset1, dataset0, dataset4, dataset3);
 };
+
+function seeSelectedHouses() {
+    var node = document.getElementById("houseDisplay");
+    node.removeChild(node.firstChild);
+    x = document.createElement("ul");
+    x.setAttribute("id", "housesList");
+    node.appendChild(x);
+    var list = document.getElementById("housesList");
+    for(var i = 0; i < candidates.length; ++i) {
+        var li = document.createElement("pre");
+        var house = candidates[i];
+        var textLi = document.createTextNode(
+            "phone: " + house.pho + "\n" +
+            "latitude: " + house.lat + "\n" +
+            "longitude: " + house.lon + "\n" +
+            "unique id: " + house.key + "\n"
+        );
+        li.appendChild(textLi);
+        list.appendChild(li);
+    }
+}
+
+function results(houseList, policeData, climateData, crimeData) {
+    var result = mainStats(houseList, policeData, climateData, crimeData);
+    var node = document.getElementById("generalStats");
+    var elem = document.createElement("pre");
+    var text = document.createTextNode(
+        "House with nearest police station is: " + result.housePolice + "\n" +
+        "\tThe distance is: " + result.minPolice + "\n" +  "\n" +
+        "House with minimum number of crimes is: " + result.houseCrimes + "\n" +
+        "\tThe number of crimes is: " + result.minCrimes + "\n" + "\n" +
+        "House with maximum number of crimes is: " + result.houseCrimesX + "\n" +
+        "\t The humber of crimes is: " + result.maxCrimes + "\n"
+    )
+    elem.appendChild(text);
+    node.appendChild(elem);
+}
+
+
+
+function findHouse(key, dataset) {
+    for(var i = 0; i < dataset.length; ++i) {
+        if(dataset[i].key == key) {
+            console.log(dataset1[i].key + " passed: " + key )
+            return dataset1[i];
+        }
+    }
+}
 
 function printDataArray() {
     var counter = 0;
@@ -383,7 +436,7 @@ function drawScatterplot(dataset) {
         .enter()
         .append("circle")
         .attr("id", function(d) {
-            return "long" + d.lat;
+            return "key" + d.lat;
         })
         .attr("class", "house")
         .attr("cx", function(d){

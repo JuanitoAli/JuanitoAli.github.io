@@ -54,7 +54,9 @@
                             <input type="checkbox" id="boolOffline" checked> Offline Data
                         </a>
                     </li>
-	                <li><a href="#">#Option2</a></li>
+	                <li>
+                        <a onclick="results(candidates, dataset0, dataset4, dataset3)">see best options</a>
+                    </li>
 	                <li><a href="#">#Option3</a></li>
 	            </ul>
 	            <ul class="nav navbar-nav navbar-right">
@@ -66,6 +68,7 @@
 
     <!-- PAGE CENTRAL CONTENT LAYOUT: SCATTERPLOT & GOOGLE MAP -->
     <div class="container-fluid text-center">
+        <!-- scatterplot and map -->
 	    <div class="row content">
             <!-- Scatterplot -->
 	        <div class="col-sm-6" id="scatterplot">
@@ -83,6 +86,8 @@
                 <div id="map"></div>
             </div>
 	    </div>
+
+        <!-- Help info and load log -->
         <div class="row content">
             <div class="col-sm-6 well text-left">
                 <p> <strong>How to use</strong><br>
@@ -113,7 +118,16 @@
                 <div>
                     <pre id="mainLog" style="font-size: 14"> Log... </pre>
                 </div>
+            </div>
+        </div>
 
+        <!-- Current selected houses and other data -->
+        <div class="row content">
+            <div class="col-sm-6 well text-left" id="houseDisplay" >
+                <ul id="housesList">
+                </ul>
+            </div>
+            <div class="col-sm-6 well text-left" id="generalStats">
             </div>
         </div>
 	</div>
