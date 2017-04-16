@@ -106,7 +106,7 @@ function drawMap() {
     var map = new google.maps.Map(document.getElementById("map"), {
         zoom: 10,
         center: latLngDeptComp,
-        mapTypeId: 'satellite'
+        mapTypeId: 'terrain'
     });
 
     // Department of Computer Science marker
@@ -146,7 +146,7 @@ function drawMap() {
                                 type: 0,
                                 lat: response.data[i][22][1],
                                 lon: response.data[i][22][2],
-                                add: {}
+                                addInfo: {}
                             });
                     }
                     break;
@@ -214,7 +214,7 @@ function drawMap() {
                                 type: 3,
                                 lat: response[i].latitude,
                                 lon: response[i].longitude,
-                                add: {}
+                                addInfo: {}
                             });
                     }
                     break;
@@ -227,7 +227,7 @@ function drawMap() {
                         request = new XMLHttpRequest();
                         for(var i = 0; i < stations.length; ++i) {
                             //request data for each climate station
-                            request.open("GET", url[4] + "&stationid=" + stations[i][3] + "&units=standard&startdate=2017-04-10&enddate=2017-04-12", false);
+                            request.open("GET", url[4] + "&stationid=" + stations[i][3] + "&units=standard&startdate=2017-04-10&enddate=2017-04-10", false);
                             request.setRequestHeader("token", "yPamBBFyXheSqvqPtnIXIdrHeumciHmr");
                             request.send();
                             response = JSON.parse(request.responseText);
@@ -240,9 +240,8 @@ function drawMap() {
                                 type: 4,
                                 lat: stations[i][1],
                                 lon: stations[i][2],
-                                add: response
+                                addInfo: response.results
                             });
-
                         }
                     } else {
                         response = loadOffline4();
@@ -256,7 +255,7 @@ function drawMap() {
                                 type: 4,
                                 lat: stations[i][1],
                                 lon: stations[i][2],
-                                add: response
+                                addInfo: response[i].results
                             });
                         }
                     }
@@ -275,7 +274,8 @@ function drawMap() {
 
 function seeSelectedHouses() {
     var node = document.getElementById("houseDisplay");
-    node.removeChild(node.firstChild);
+    var rem = document.getElementById("housesList");
+    node.removeChild(rem);
     x = document.createElement("ul");
     x.setAttribute("id", "housesList");
     node.appendChild(x);
@@ -295,17 +295,62 @@ function seeSelectedHouses() {
 }
 
 function results(houseList, policeData, climateData, crimeData) {
+    // prebox that holds two main stats
     var result = mainStats(houseList, policeData, climateData, crimeData);
     var node = document.getElementById("generalStats");
     var elem = document.createElement("pre");
+    elem.setAttribute("class", "alert-info");
     var text = document.createTextNode(
+        "BEST HOUSES LOCATIONS: " + "\n" + "\n" +
         "House with nearest police station is: " + result.housePolice + "\n" +
         "\tThe distance is: " + result.minPolice + "\n" +  "\n" +
         "House with minimum number of crimes is: " + result.houseCrimes + "\n" +
         "\tThe number of crimes is: " + result.minCrimes + "\n" + "\n" +
         "House with maximum number of crimes is: " + result.houseCrimesX + "\n" +
         "\t The humber of crimes is: " + result.maxCrimes + "\n"
-    )
+    );
+    elem.appendChild(text);
+    node.appendChild(elem);
+
+    // get near stations:
+    var station1 = getNearest(houseList[result.housePolice], climateData);
+    var station2 = getNearest(houseList[result.houseCrimes], climateData);
+
+    // climate data of stations
+    var climateData1 = station1.addInfo;
+    var climateData2 = station2.addInfo;
+
+    // contanating data in climateData1
+    var string1 = "";
+    for(var i = 0; i < climateData1.length; ++i) {
+        string1 += climateData1[i].datatype + " = " + climateData1[i].value
+            + "\t\tDate = " + climateData1[i].date + "\n";
+    }
+
+    // concatenating data in climateData2
+    var string2 = "";
+    for(var i = 0; i < climateData2.length; ++i) {
+        string2 += climateData2[i].datatype + " = " + climateData2[i].value
+            + "\t\tDate = " + climateData2[i].date + "\n";
+    }
+
+    // prebox that holds climate stats for house1 (best police)
+    elem = document.createElement("pre");
+    elem.setAttribute("class", "alert-success");
+    text = document.createTextNode(
+        "BEST POLICE COVERED HOUSE CLIMATE STATUS: (HOUSE" + result.housePolice + ") "
+        + "\n" + "\n" + string1
+    );
+    elem.appendChild(text);
+    node.appendChild(elem);
+
+    // prebox that holds climate stats for house2 (best crimes)
+    elem = document.createElement("pre");
+    elem.setAttribute("class", "alert-success");
+    text = document.createTextNode(
+        "BEST MINIMAL CRIME HOUSE CLIMATE STATUS: (HOUSE" + result.houseCrimes + ") "
+        + "\n" + "\n" + string2
+    );
     elem.appendChild(text);
     node.appendChild(elem);
 }
@@ -314,10 +359,8 @@ function results(houseList, policeData, climateData, crimeData) {
 
 function findHouse(key, dataset) {
     for(var i = 0; i < dataset.length; ++i) {
-        if(dataset[i].key == key) {
-            console.log(dataset1[i].key + " passed: " + key )
+        if(dataset[i].key == key)
             return dataset1[i];
-        }
     }
 }
 
@@ -446,9 +489,11 @@ function drawScatterplot(dataset) {
             return yScale(d.lon);
         })
         .attr("r", function(d){
-            return 3;
+            return 2;
         })
-        .attr("fill", "rgb(103, 197, 71)");
+        .attr("fill", "rgb(103, 197, 71)")
+        .attr("stroke", "green")
+        .attr("stronke-width", "1");
 
     // Draws recent crimes (red dots)
     d3.select("body").select("svg")

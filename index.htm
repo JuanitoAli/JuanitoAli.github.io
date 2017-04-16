@@ -43,24 +43,14 @@
 	                <span class="icon-bar"></span>
 	                <span class="icon-bar"></span>
 	            </button>
-	            <a class="navbar-brand" href="#">RoomFinder</a>
+	            <a class="navbar-brand" onclick="location.reload()">RoomFinder</a>
 	        </div>
 	        <div class="collapse navbar-collapse" id="myNavbar">
 	            <ul class="nav navbar-nav">
 	                <li class="active"><a href="#">Home</a></li>
-                    <!-- Global View -->
-	                <li>
-                        <a href="#">
-                            <input type="checkbox" id="boolOffline" checked> Offline Data
-                        </a>
-                    </li>
-	                <li>
-                        <a onclick="results(candidates, dataset0, dataset4, dataset3)">see best options</a>
-                    </li>
-	                <li><a href="#">#Option3</a></li>
-	            </ul>
-	            <ul class="nav navbar-nav navbar-right">
-	                <li><button onclick="removeCrimeMap()">Remove crime markers :)</button></li>
+	                <li><a href="#"><input type="checkbox" id="boolOffline" checked> Offline Data</a></li>
+                    <li><button class="btn btn-primary navbar-btn" onclick="results(candidates, dataset0, dataset4, dataset3)">Get Best Houses</button></li>
+                    <li><a href="#statsSection"> Go to stats</a></li>
 	            </ul>
 	        </div>
 	    </div>
@@ -92,6 +82,7 @@
             <div class="col-sm-6 well text-left">
                 <p> <strong>How to use</strong><br>
                     <ul>
+                        <li>If offline data is checked, the page do not request any information, so the app speeds up x10</li>
                         <li>Orange dot depict Department of Computer Science of University of Illinois.</li>
                         <li>Green dots depict affordable houses.</il>
                         <li>Blue blurred circles depict police station "visible" area.</li>
@@ -105,7 +96,7 @@
             <!-- Loading page status and log -->
             <div class="col-sm-6 ">
                 <div>
-                    <p style="font-size: 14"> Progress... </p>
+                    <p style="font-size: 14"><strong>Progress...</strong></p>
                 </div>
 
                 <div class="progress" >
@@ -122,12 +113,14 @@
         </div>
 
         <!-- Current selected houses and other data -->
-        <div class="row content">
+        <div class="row content" id="statsSection">
             <div class="col-sm-6 well text-left" id="houseDisplay" >
+                <strong>Selected Houses</strong>
                 <ul id="housesList">
                 </ul>
             </div>
             <div class="col-sm-6 well text-left" id="generalStats">
+                <strong>Best Choices: </strong>
             </div>
         </div>
 	</div>

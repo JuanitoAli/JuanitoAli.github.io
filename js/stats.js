@@ -70,20 +70,24 @@ function getNearest(center, listLocations) {
         type: listLocations[0].type,
         lat: listLocations[0].lat,
         lon: listLocations[0].lon,
-        add: listLocations[0].add,
-		dist: min
+        addInfo: listLocations[0].addInfo,
+		dist: min,
+		index: 0
     };
 
     for(var i = 1; i < listLocations.length; ++i) {
         d = findDistance(center, listLocations[i]);
-        if(d < min)
+        if(d < min) {
+			min = d;
             ans = {
                 type: listLocations[i].type,
 				lat: listLocations[i].lat,
 				lon: listLocations[i].lon,
-                add: listLocations[i].add,
-				dist: d
+                addInfo: listLocations[i].addInfo,
+				dist: d,
+				index: i
 			};
+		}
     }
     return ans;
 }
@@ -115,12 +119,14 @@ function singleStats(house, policeStations, climateStations, crimeList) {
 function mainStats(houseList, policeStations, climateStations, crimeList) {
     var stat = singleStats(houseList[0], policeStations, climateStations, crimeList); // init reference
 
-    var minPolice = stat.nearPolice.dist;   // hold actual min of distance from house to police station
-    var minCrimes = stat.crimesList.length; // hold actual min of number of crimes near to house
-    var maxCrimes = 0;                      // stores actual max of number of crimes near to house
-    var housePolice = 0;                    // holds index in houseList of house that is nearest to police station
-    var houseCrimes = 0;                    // stores index in houseLIst of best house in crime issues
-    var houseCrimesX = 0;                   // stores index in houseLIst of worst house in crime issues
+    var minPolice = stat.nearPolice.dist;   	// hold actual min of distance from house to police station
+	var minClimate = stat.nearClimate.dist;		// store actual min distance from house to some climate station
+    var minCrimes = stat.crimesList.length; 	// hold actual min of number of crimes near to house
+    var maxCrimes = 0;                      	// stores actual max of number of crimes near to house
+    var housePolice = 0;                  	 	 // holds index in houseList of house that is nearest to police station
+	var houseClimate = 0;						// same as house police...
+    var houseCrimes = 0;                  	 	 // stores index in houseLIst of best house in crime issues
+    var houseCrimesX = 0;                 		 // stores index in houseLIst of worst house in crime issues
 
     for(var i = 1; i < houseList.length; ++i) {
         stat = singleStats(houseList[i], policeStations, climateStations, crimeList);
@@ -128,6 +134,10 @@ function mainStats(houseList, policeStations, climateStations, crimeList) {
             housePolice = i;
             minPolice = stat.nearPolice.dist;
         }
+		if(stat.nearClimate.dist < minClimate) {
+			houseClimate = i;
+			minClimate = stat.nearClimate.dist;
+		}
         if(stat.crimesList.length < minCrimes) {
             houseCrimes = i;
             minCrimes = stat.crimesList.length;
@@ -140,9 +150,11 @@ function mainStats(houseList, policeStations, climateStations, crimeList) {
 
 	var result = {
 		minPolice: minPolice,
+		minClimate: minClimate,
 		minCrimes: minCrimes,
 		maxCrimes: maxCrimes,
 		housePolice: housePolice,
+		houseClimate: houseClimate,
 		houseCrimes: houseCrimes,
 		houseCrimesX: houseCrimesX
 	}
