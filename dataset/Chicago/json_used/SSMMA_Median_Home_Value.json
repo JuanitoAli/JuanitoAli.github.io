@@ -1,0 +1,818 @@
+{
+  "meta" : {
+    "view" : {
+      "id" : "miqf-743d",
+      "name" : "SSMMA Median Home Value",
+      "attribution" : "South Suburban Mayors and Managers Association",
+      "attributionLink" : "http://www.ssmma.org",
+      "averageRating" : 0,
+      "category" : "Municipality",
+      "createdAt" : 1354049772,
+      "description" : "This dataset details the median home value in Chicago Southland municipalities. Numerical data reflects an average of sales in zillow. com and trulia.com.",
+      "displayType" : "table",
+      "downloadCount" : 820,
+      "hideFromCatalog" : false,
+      "hideFromDataJson" : false,
+      "licenseId" : "CC0_10",
+      "newBackend" : false,
+      "numberOfComments" : 0,
+      "oid" : 1838185,
+      "provenance" : "community",
+      "publicationAppendEnabled" : false,
+      "publicationDate" : 1354049822,
+      "publicationGroup" : 523390,
+      "publicationStage" : "published",
+      "rowsUpdatedAt" : 1354049777,
+      "rowsUpdatedBy" : "74c3-ka9x",
+      "tableId" : 523390,
+      "totalTimesRated" : 0,
+      "viewCount" : 240,
+      "viewLastModified" : 1354049835,
+      "viewType" : "tabular",
+      "columns" : [ {
+        "id" : -1,
+        "name" : "sid",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":sid",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : { },
+        "flags" : [ "hidden" ]
+      }, {
+        "id" : -1,
+        "name" : "id",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":id",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : { },
+        "flags" : [ "hidden" ]
+      }, {
+        "id" : -1,
+        "name" : "position",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":position",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : { },
+        "flags" : [ "hidden" ]
+      }, {
+        "id" : -1,
+        "name" : "created_at",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":created_at",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : { },
+        "flags" : [ "hidden" ]
+      }, {
+        "id" : -1,
+        "name" : "created_meta",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":created_meta",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : { },
+        "flags" : [ "hidden" ]
+      }, {
+        "id" : -1,
+        "name" : "updated_at",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":updated_at",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : { },
+        "flags" : [ "hidden" ]
+      }, {
+        "id" : -1,
+        "name" : "updated_meta",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":updated_meta",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : { },
+        "flags" : [ "hidden" ]
+      }, {
+        "id" : -1,
+        "name" : "meta",
+        "dataTypeName" : "meta_data",
+        "fieldName" : ":meta",
+        "position" : 0,
+        "renderTypeName" : "meta_data",
+        "format" : { },
+        "flags" : [ "hidden" ]
+      }, {
+        "id" : 31585015,
+        "name" : "OBJECTID",
+        "dataTypeName" : "number",
+        "fieldName" : "objectid",
+        "position" : 2,
+        "renderTypeName" : "number",
+        "tableColumnId" : 5592742,
+        "width" : 196,
+        "cachedContents" : {
+          "non_null" : 75,
+          "average" : "38",
+          "largest" : "75",
+          "null" : 0,
+          "top" : [ {
+            "item" : "42",
+            "count" : 20
+          }, {
+            "item" : "43",
+            "count" : 19
+          }, {
+            "item" : "44",
+            "count" : 18
+          }, {
+            "item" : "45",
+            "count" : 17
+          }, {
+            "item" : "46",
+            "count" : 16
+          }, {
+            "item" : "47",
+            "count" : 15
+          }, {
+            "item" : "48",
+            "count" : 14
+          }, {
+            "item" : "49",
+            "count" : 13
+          }, {
+            "item" : "50",
+            "count" : 12
+          }, {
+            "item" : "51",
+            "count" : 11
+          }, {
+            "item" : "52",
+            "count" : 10
+          }, {
+            "item" : "53",
+            "count" : 9
+          }, {
+            "item" : "54",
+            "count" : 8
+          }, {
+            "item" : "55",
+            "count" : 7
+          }, {
+            "item" : "56",
+            "count" : 6
+          }, {
+            "item" : "57",
+            "count" : 5
+          }, {
+            "item" : "58",
+            "count" : 4
+          }, {
+            "item" : "59",
+            "count" : 3
+          }, {
+            "item" : "60",
+            "count" : 2
+          }, {
+            "item" : "61",
+            "count" : 1
+          } ],
+          "smallest" : "1",
+          "sum" : "2850"
+        },
+        "format" : { }
+      }, {
+        "id" : 31585016,
+        "name" : "MUNICIPALI",
+        "dataTypeName" : "text",
+        "fieldName" : "municipali",
+        "position" : 3,
+        "renderTypeName" : "text",
+        "tableColumnId" : 5592743,
+        "width" : 220,
+        "cachedContents" : {
+          "non_null" : 75,
+          "largest" : "Worth",
+          "null" : 0,
+          "top" : [ {
+            "item" : "Oak Forest",
+            "count" : 20
+          }, {
+            "item" : "Alsip",
+            "count" : 19
+          }, {
+            "item" : "Justice",
+            "count" : 18
+          }, {
+            "item" : "Bedford Park",
+            "count" : 17
+          }, {
+            "item" : "Bridgeview",
+            "count" : 16
+          }, {
+            "item" : "Frankfort",
+            "count" : 15
+          }, {
+            "item" : "Mokena",
+            "count" : 14
+          }, {
+            "item" : "Steger",
+            "count" : 13
+          }, {
+            "item" : "South Chicago Heights",
+            "count" : 12
+          }, {
+            "item" : "Crete",
+            "count" : 11
+          }, {
+            "item" : "University Park",
+            "count" : 10
+          }, {
+            "item" : "Ford Heights",
+            "count" : 9
+          }, {
+            "item" : "Hazel Crest",
+            "count" : 8
+          }, {
+            "item" : "Lemont",
+            "count" : 7
+          }, {
+            "item" : "Markham",
+            "count" : 6
+          }, {
+            "item" : "Willow Springs",
+            "count" : 5
+          }, {
+            "item" : "Manhattan",
+            "count" : 4
+          }, {
+            "item" : "Beecher",
+            "count" : 3
+          }, {
+            "item" : "New Lenox",
+            "count" : 2
+          }, {
+            "item" : "Monee",
+            "count" : 1
+          } ],
+          "smallest" : "Alsip"
+        },
+        "format" : { }
+      }, {
+        "id" : 31585017,
+        "name" : "CURRENT_ME",
+        "dataTypeName" : "number",
+        "fieldName" : "current_me",
+        "position" : 4,
+        "renderTypeName" : "number",
+        "tableColumnId" : 5592744,
+        "width" : 220,
+        "cachedContents" : {
+          "non_null" : 75,
+          "average" : "133536",
+          "largest" : "505800",
+          "null" : 0,
+          "top" : [ {
+            "item" : "149600",
+            "count" : 20
+          }, {
+            "item" : "125500",
+            "count" : 19
+          }, {
+            "item" : "133900",
+            "count" : 18
+          }, {
+            "item" : "0",
+            "count" : 17
+          }, {
+            "item" : "133400",
+            "count" : 16
+          }, {
+            "item" : "309800",
+            "count" : 15
+          }, {
+            "item" : "232900",
+            "count" : 14
+          }, {
+            "item" : "80000",
+            "count" : 13
+          }, {
+            "item" : "74800",
+            "count" : 12
+          }, {
+            "item" : "132400",
+            "count" : 11
+          }, {
+            "item" : "87200",
+            "count" : 10
+          }, {
+            "item" : "44900",
+            "count" : 9
+          }, {
+            "item" : "77600",
+            "count" : 8
+          }, {
+            "item" : "288800",
+            "count" : 7
+          }, {
+            "item" : "50000",
+            "count" : 6
+          }, {
+            "item" : "216800",
+            "count" : 5
+          }, {
+            "item" : "199900",
+            "count" : 4
+          }, {
+            "item" : "139000",
+            "count" : 3
+          }, {
+            "item" : "212900",
+            "count" : 2
+          }, {
+            "item" : "145500",
+            "count" : 1
+          } ],
+          "smallest" : "0",
+          "sum" : "10015200"
+        },
+        "format" : { }
+      }, {
+        "id" : 31585018,
+        "name" : "WEBLINK",
+        "dataTypeName" : "text",
+        "fieldName" : "weblink",
+        "position" : 5,
+        "renderTypeName" : "text",
+        "tableColumnId" : 5592745,
+        "width" : 184,
+        "cachedContents" : {
+          "non_null" : 75,
+          "largest" : "http://www.zillow.com/local-info/IL-Worth-home-value/r_56647/",
+          "null" : 0,
+          "top" : [ {
+            "item" : "http://www.zillow.com/local-info/IL-Oak-Forest-home-value/r_16535/",
+            "count" : 20
+          }, {
+            "item" : "http://www.zillow.com/local-info/IL-Alsip-home-value/r_16736/",
+            "count" : 19
+          }, {
+            "item" : "http://www.zillow.com/local-info/IL-Justice-home-value/r_35727/",
+            "count" : 18
+          }, {
+            "item" : "http://www.zillow.com/local-info/IL-Bedford-Park-home-value/r_50935/",
+            "count" : 17
+          }, {
+            "item" : "http://www.zillow.com/local-info/IL-Bridgeview-home-value/r_43599/",
+            "count" : 16
+          }, {
+            "item" : "http://www.zillow.com/local-info/IL-Frankfort-home-value/r_18186/#metric=mt%3D34%26dt%3D1%26tp%3D5%26rt%3D8%26r%3D18186%26el%3D0",
+            "count" : 15
+          }, {
+            "item" : "http://www.zillow.com/local-info/IL-Mokena-home-value/r_32911/",
+            "count" : 14
+          }, {
+            "item" : "http://www.zillow.com/local-info/IL-Steger-home-value/r_49831/",
+            "count" : 13
+          }, {
+            "item" : "http://www.zillow.com/local-info/IL-South-Chicago-Heights-home-value/r_40969/",
+            "count" : 12
+          }, {
+            "item" : "http://www.zillow.com/local-info/IL-Crete-home-value/r_24269/",
+            "count" : 11
+          }, {
+            "item" : "http://www.zillow.com/local-info/IL-University-Park-home-value/r_48096/",
+            "count" : 10
+          }, {
+            "item" : "http://www.zillow.com/local-info/IL-Ford-Heights-home-value/r_31586/",
+            "count" : 9
+          }, {
+            "item" : "http://www.zillow.com/local-info/IL-Hazel-Crest-home-value/r_28425/",
+            "count" : 8
+          }, {
+            "item" : "http://www.zillow.com/local-info/IL-Lemont-home-value/r_25548/",
+            "count" : 7
+          }, {
+            "item" : "http://www.zillow.com/local-info/IL-Markham-home-value/r_25758/",
+            "count" : 6
+          }, {
+            "item" : "http://www.zillow.com/local-info/IL-Willow-Springs-home-value/r_49870/",
+            "count" : 5
+          }, {
+            "item" : "http://www.zillow.com/local-info/IL-Manhattan-home-value/r_25726/",
+            "count" : 4
+          }, {
+            "item" : "http://www.zillow.com/local-info/IL-Beecher-home-value/r_30391/",
+            "count" : 3
+          }, {
+            "item" : "http://www.zillow.com/local-info/IL-New-Lenox-home-value/r_29044/",
+            "count" : 2
+          }, {
+            "item" : "http://www.zillow.com/local-info/IL-Monee-home-value/r_53374/",
+            "count" : 1
+          } ],
+          "smallest" : "http://www.zillow.com/local-info/IL-Alsip-home-value/r_16736/"
+        },
+        "format" : { }
+      }, {
+        "id" : 31585019,
+        "name" : "EDITOR",
+        "dataTypeName" : "text",
+        "fieldName" : "editor",
+        "position" : 6,
+        "renderTypeName" : "text",
+        "tableColumnId" : 5592746,
+        "width" : 172,
+        "cachedContents" : {
+          "non_null" : 75,
+          "largest" : "MJR",
+          "null" : 0,
+          "top" : [ {
+            "item" : "MJR",
+            "count" : 20
+          } ],
+          "smallest" : "MJR"
+        },
+        "format" : { }
+      }, {
+        "id" : 31585020,
+        "name" : "PROPREITAR",
+        "dataTypeName" : "number",
+        "fieldName" : "propreitar",
+        "position" : 7,
+        "renderTypeName" : "number",
+        "tableColumnId" : 5592747,
+        "width" : 220,
+        "cachedContents" : {
+          "non_null" : 75,
+          "average" : "38",
+          "largest" : "75",
+          "null" : 0,
+          "top" : [ {
+            "item" : "42",
+            "count" : 20
+          }, {
+            "item" : "43",
+            "count" : 19
+          }, {
+            "item" : "44",
+            "count" : 18
+          }, {
+            "item" : "45",
+            "count" : 17
+          }, {
+            "item" : "46",
+            "count" : 16
+          }, {
+            "item" : "47",
+            "count" : 15
+          }, {
+            "item" : "48",
+            "count" : 14
+          }, {
+            "item" : "49",
+            "count" : 13
+          }, {
+            "item" : "50",
+            "count" : 12
+          }, {
+            "item" : "51",
+            "count" : 11
+          }, {
+            "item" : "52",
+            "count" : 10
+          }, {
+            "item" : "53",
+            "count" : 9
+          }, {
+            "item" : "54",
+            "count" : 8
+          }, {
+            "item" : "55",
+            "count" : 7
+          }, {
+            "item" : "56",
+            "count" : 6
+          }, {
+            "item" : "57",
+            "count" : 5
+          }, {
+            "item" : "58",
+            "count" : 4
+          }, {
+            "item" : "59",
+            "count" : 3
+          }, {
+            "item" : "60",
+            "count" : 2
+          }, {
+            "item" : "61",
+            "count" : 1
+          } ],
+          "smallest" : "1",
+          "sum" : "2850"
+        },
+        "format" : { }
+      }, {
+        "id" : 31585022,
+        "name" : "UNIVERSALI",
+        "dataTypeName" : "text",
+        "fieldName" : "universali",
+        "position" : 8,
+        "renderTypeName" : "text",
+        "tableColumnId" : 5592749,
+        "width" : 220,
+        "cachedContents" : {
+          "non_null" : 75,
+          "largest" : "UR",
+          "null" : 0,
+          "top" : [ {
+            "item" : "UR",
+            "count" : 20
+          } ],
+          "smallest" : "UR"
+        },
+        "format" : { }
+      }, {
+        "id" : 31585024,
+        "name" : "SHAPE_Leng",
+        "dataTypeName" : "number",
+        "fieldName" : "shape_leng",
+        "position" : 9,
+        "renderTypeName" : "number",
+        "tableColumnId" : 5592751,
+        "width" : 220,
+        "cachedContents" : {
+          "non_null" : 75,
+          "average" : "101491.5013585307",
+          "largest" : "522536.375611",
+          "null" : 0,
+          "top" : [ {
+            "item" : "156921.2447",
+            "count" : 20
+          }, {
+            "item" : "87815.5290148",
+            "count" : 19
+          }, {
+            "item" : "52035.9355198",
+            "count" : 18
+          }, {
+            "item" : "91884.7959924",
+            "count" : 17
+          }, {
+            "item" : "83798.4962198",
+            "count" : 16
+          }, {
+            "item" : "353442.535623",
+            "count" : 15
+          }, {
+            "item" : "323138.247881",
+            "count" : 14
+          }, {
+            "item" : "74797.5754865",
+            "count" : 13
+          }, {
+            "item" : "43906.7614058",
+            "count" : 12
+          }, {
+            "item" : "145037.683636",
+            "count" : 11
+          }, {
+            "item" : "177520.447458",
+            "count" : 10
+          }, {
+            "item" : "43960.6789721",
+            "count" : 9
+          }, {
+            "item" : "79373.8085305",
+            "count" : 8
+          }, {
+            "item" : "302701.793294",
+            "count" : 7
+          }, {
+            "item" : "84220.1642663",
+            "count" : 6
+          }, {
+            "item" : "125620.195299",
+            "count" : 5
+          }, {
+            "item" : "179519.61405",
+            "count" : 4
+          }, {
+            "item" : "63450.2117639",
+            "count" : 3
+          }, {
+            "item" : "522536.375611",
+            "count" : 2
+          }, {
+            "item" : "94516.5480545",
+            "count" : 1
+          } ],
+          "smallest" : "15714.2400393",
+          "sum" : "7611862.6018898"
+        },
+        "format" : { }
+      }, {
+        "id" : 31585026,
+        "name" : "SHAPE_Area",
+        "dataTypeName" : "number",
+        "fieldName" : "shape_area",
+        "position" : 10,
+        "renderTypeName" : "number",
+        "tableColumnId" : 5592753,
+        "width" : 220,
+        "cachedContents" : {
+          "non_null" : 75,
+          "average" : "132834801.5884707",
+          "largest" : "604359075.199",
+          "null" : 0,
+          "top" : [ {
+            "item" : "160933934.522",
+            "count" : 20
+          }, {
+            "item" : "180071888.466",
+            "count" : 19
+          }, {
+            "item" : "81628902.8252",
+            "count" : 18
+          }, {
+            "item" : "173840177.261",
+            "count" : 17
+          }, {
+            "item" : "113710621.398",
+            "count" : 16
+          }, {
+            "item" : "386807346.154",
+            "count" : 15
+          }, {
+            "item" : "218647465.6",
+            "count" : 14
+          }, {
+            "item" : "96845207.8861",
+            "count" : 13
+          }, {
+            "item" : "44259058.8896",
+            "count" : 12
+          }, {
+            "item" : "185399132.386",
+            "count" : 11
+          }, {
+            "item" : "297613304.615",
+            "count" : 10
+          }, {
+            "item" : "41433584.0693",
+            "count" : 9
+          }, {
+            "item" : "94479085.4604",
+            "count" : 8
+          }, {
+            "item" : "213604217.547",
+            "count" : 7
+          }, {
+            "item" : "146169917.308",
+            "count" : 6
+          }, {
+            "item" : "110327301.534",
+            "count" : 5
+          }, {
+            "item" : "141429554.044",
+            "count" : 4
+          }, {
+            "item" : "81613688.3712",
+            "count" : 3
+          }, {
+            "item" : "392438174.87",
+            "count" : 2
+          }, {
+            "item" : "103657213.008",
+            "count" : 1
+          } ],
+          "smallest" : "10184268.5195",
+          "sum" : "9962610119.1353"
+        },
+        "format" : { }
+      } ],
+      "grants" : [ {
+        "inherited" : false,
+        "type" : "viewer",
+        "flags" : [ "public" ]
+      } ],
+      "license" : {
+        "name" : "Creative Commons 1.0 Universal (Public Domain Dedication)",
+        "logoUrl" : "images/licenses/ccZero.png",
+        "termsLink" : "http://creativecommons.org/publicdomain/zero/1.0/legalcode"
+      },
+      "metadata" : {
+        "custom_fields" : {
+          "Agency" : {
+            "Agency Name" : "South Suburban Mayors and Managers Association"
+          }
+        },
+        "renderTypeConfig" : {
+          "visible" : {
+            "table" : true
+          }
+        },
+        "availableDisplayTypes" : [ "table", "fatrow", "page" ]
+      },
+      "owner" : {
+        "id" : "p88s-rkzf",
+        "displayName" : "mrizzitiello",
+        "profileImageUrlLarge" : "/api/users/p88s-rkzf/profile_images/LARGE",
+        "profileImageUrlMedium" : "/api/users/p88s-rkzf/profile_images/THUMB",
+        "profileImageUrlSmall" : "/api/users/p88s-rkzf/profile_images/TINY",
+        "screenName" : "mrizzitiello"
+      },
+      "query" : { },
+      "rights" : [ "read" ],
+      "tableAuthor" : {
+        "id" : "74c3-ka9x",
+        "displayName" : "Rey de Castro",
+        "profileImageUrlLarge" : "/api/users/74c3-ka9x/profile_images/LARGE",
+        "profileImageUrlMedium" : "/api/users/74c3-ka9x/profile_images/THUMB",
+        "profileImageUrlSmall" : "/api/users/74c3-ka9x/profile_images/TINY",
+        "roleName" : "publisher",
+        "screenName" : "Rey de Castro",
+        "rights" : [ "create_datasets", "edit_others_datasets", "edit_nominations", "approve_nominations", "moderate_comments", "manage_stories", "feature_items", "change_configurations", "view_domain", "view_others_datasets", "create_pages", "edit_pages", "view_goals", "view_dashboards", "edit_goals", "edit_dashboards", "manage_provenance", "view_story", "view_unpublished_story", "view_all_dataset_status_logs", "use_data_connectors" ]
+      },
+      "tags" : [ "housing", "economic development", "planning", "statistical" ],
+      "flags" : [ "default", "restorable", "restorePossibleForType" ]
+    }
+  },
+  "data" : [
+  [ 1, "D4821108-EE94-44AD-AEAA-40076EBF35EF", 1, 1354020974, "393208", 1354020974, "393208", "{\n}", "1", "Homewood", "119500", "http://www.zillow.com/local-info/IL-Homewood-home-value/r_45795/", "MJR", "1", "UR", "73388.0626195", "147228317.032" ]
+, [ 2, "9B87BF82-B67F-44E9-87FF-038A947971C4", 2, 1354020974, "393208", 1354020974, "393208", "{\n}", "2", "Flossmoor", "171200", "http://www.zillow.com/local-info/IL-Flossmoor-home-value/r_29979/", "MJR", "2", "UR", "93368.9037482", "101139509.05" ]
+, [ 3, "3BF7EDF2-B159-48C3-B9E2-AC99B5D50FD2", 3, 1354020974, "393208", 1354020974, "393208", "{\n}", "3", "Olympia Fields", "182600", "http://www.zillow.com/local-info/IL-Olympia-Fields-home-value/r_22183/", "MJR", "3", "UR", "69537.6219866", "79538995.9458" ]
+, [ 4, "E36C69BA-593F-49F2-9232-FB2CB0475E73", 4, 1354020974, "393208", 1354020974, "393208", "{\n}", "4", "Country Club Hills", "92700", "http://www.zillow.com/local-info/IL-Country-Club-Hills-home-value/r_14849/", "MJR", "4", "UR", "77819.513342", "131526346.171" ]
+, [ 5, "4E075FB4-0DA1-4C3F-9CC8-38C046E8F221", 5, 1354020974, "393208", 1354020974, "393208", "{\n}", "5", "Thornton", "73500", "http://www.zillow.com/local-info/IL-Thornton-home-value/r_41227/", "MJR", "5", "UR", "47526.0463823", "66158504.2681" ]
+, [ 6, "FE3B75DC-137D-4114-A0AE-EDE386DE25DD", 6, 1354020974, "393208", 1354020974, "393208", "{\n}", "6", "Calumet City", "68100", "http://www.zillow.com/local-info/IL-Calumet-City-home-value/r_10669/", "MJR", "6", "UR", "118855.004397", "205291311.845" ]
+, [ 7, "DEE04CDD-B3C5-4534-BF32-E592A58D0161", 7, 1354020974, "393208", 1354020974, "393208", "{\n}", "7", "Dixmoor", "52100", "http://www.zillow.com/local-info/IL-Dixmoor-home-value/r_31236/", "MJR", "7", "UR", "25818.0895707", "35230112.2731" ]
+, [ 8, "99B82F25-F6BB-4637-BE8A-ACCE71310740", 8, 1354020974, "393208", 1354020974, "393208", "{\n}", "8", "Dolton", "75300", "http://www.zillow.com/local-info/IL-Dolton-home-value/r_8671/", "MJR", "8", "UR", "75222.5152121", "129177579.301" ]
+, [ 9, "33F41A28-4739-49ED-A97C-AB37C120D83E", 9, 1354020974, "393208", 1354020974, "393208", "{\n}", "9", "East Hazel Crest", "78800", "http://www.zillow.com/local-info/IL-East-Hazel-Crest-home-value/r_17872/", "MJR", "9", "UR", "25177.6016821", "21834493.4708" ]
+, [ 10, "2273670B-EF82-42A4-9FC2-0A343895B926", 10, 1354020974, "393208", 1354020974, "393208", "{\n}", "10", "Richton Park", "88200", "http://www.zillow.com/local-info/IL-Richton-Park-home-value/r_26755/", "MJR", "10", "UR", "85701.3299538", "102509534.008" ]
+, [ 11, "BB8579F2-3FDD-402D-B741-45286D2FFD82", 11, 1354020974, "393208", 1354020974, "393208", "{\n}", "11", "Harvey", "49700", "http://www.zillow.com/local-info/IL-Harvey-home-value/r_45676/", "MJR", "11", "UR", "88592.7410801", "170299286.575" ]
+, [ 12, "DAD59FAB-D9DD-4C1C-B41A-ED0383253245", 12, 1354020974, "393208", 1354020974, "393208", "{\n}", "12", "Phoenix", "62900", "http://www.zillow.com/local-info/IL-Phoenix-home-value/r_26480/", "MJR", "12", "UR", "18073.543799", "12664084.94" ]
+, [ 13, "E547BD2F-4B51-45B1-9818-5B3FFDDB2774", 13, 1354020974, "393208", 1354020974, "393208", "{\n}", "13", "Oak Lawn", "143600", "http://www.zillow.com/local-info/IL-Oak-Lawn-home-value/r_6267/", "MJR", "13", "UR", "92347.3679648", "239908924.611" ]
+, [ 14, "F53FD26C-C764-4784-B4AC-7054275753D2", 14, 1354020974, "393208", 1354020974, "393208", "{\n}", "14", "Riverdale", "53400", "http://www.zillow.com/local-info/IL-Riverdale-home-value/r_6783/#metric=mt%3D34%26dt%3D1%26tp%3D5%26rt%3D8%26r%3D6783%26el%3D0", "MJR", "14", "UR", "52026.2082079", "105251392.559" ]
+, [ 15, "FCB00E5B-87B9-4C57-88CD-E8F1EB44D74C", 15, 1354020974, "393208", 1354020974, "393208", "{\n}", "15", "Blue Island", "77200", "http://www.zillow.com/local-info/IL-Blue-Island-home-value/r_51040/", "MJR", "15", "UR", "73180.957209", "114115490.639" ]
+, [ 16, "F1B6A7C1-FD7D-42A8-82D3-448499540879", 16, 1354020974, "393208", 1354020974, "393208", "{\n}", "16", "Lansing", "87500", "http://www.zillow.com/local-info/IL-Lansing-home-value/r_28517/", "MJR", "16", "UR", "118227.75796", "191724695.422" ]
+, [ 17, "0162D491-D72E-450E-948E-8B238B9DCC2D", 17, 1354020974, "393208", 1354020974, "393208", "{\n}", "17", "Chicago Heights", "73400", "http://www.zillow.com/local-info/IL-Chicago-Heights-home-value/r_55487/", "MJR", "17", "UR", "159394.906726", "281867857.426" ]
+, [ 18, "6DD9B3EC-8A93-48C7-8B11-4AA1133954C1", 18, 1354020974, "393208", 1354020974, "393208", "{\n}", "18", "Sauk Village", "55700", "http://www.zillow.com/local-info/IL-Sauk-Village-home-value/r_36276/", "MJR", "18", "UR", "117260.699591", "109241649.834" ]
+, [ 19, "F88F4E8F-BD7F-46B6-958F-4E3ECFD2973E", 19, 1354020974, "393208", 1354020974, "393208", "{\n}", "19", "Glenwood", "90600", "http://www.zillow.com/local-info/IL-Glenwood-home-value/r_18306/", "MJR", "19", "UR", "110850.315076", "86632492.9373" ]
+, [ 20, "7AF26D6B-FDA9-479D-B001-FD63DFC25E6C", 20, 1354020974, "393208", 1354020974, "393208", "{\n}", "20", "Homer Glen", "250300", "http://www.zillow.com/local-info/IL-Homer-Glen-home-value/r_18612/#metric=mt%3D34%26dt%3D1%26tp%3D5%26rt%3D8%26r%3D18612%26el%3D0", "MJR", "20", "UR", "240021.870269", "604359075.199" ]
+, [ 21, "C0B54194-006F-4F09-A231-9D9748B9C188", 21, 1354020974, "393208", 1354020974, "393208", "{\n}", "21", "Tinley Park", "175000", "http://www.zillow.com/local-info/IL-Tinley-Park-home-value/r_9969/", "MJR", "21", "UR", "249584.885311", "444043771.94" ]
+, [ 22, "1DD308E9-4188-49AD-AA20-1504CFD667D2", 22, 1354020974, "393208", 1354020974, "393208", "{\n}", "22", "Palos Park", "311200", "http://www.zillow.com/local-info/IL-Palos-Park-home-value/r_28971/", "MJR", "22", "UR", "112577.966259", "102157597.124" ]
+, [ 23, "F5FDAF96-5FF4-4B19-90DE-CA62A0621919", 23, 1354020974, "393208", 1354020974, "393208", "{\n}", "23", "Lynwood", "115700", "http://www.zillow.com/local-info/IL-Lynwood-home-value/r_23111/", "MJR", "23", "UR", "147259.651326", "144691103.04" ]
+, [ 24, "C0CFB9AA-642B-4492-9D39-D40E4FCFDFDF", 24, 1354020974, "393208", 1354020974, "393208", "{\n}", "24", "Burnham", "73000", "http://www.zillow.com/local-info/IL-Burnham-home-value/r_37665/", "MJR", "24", "UR", "33753.3543999", "54398542.4205" ]
+, [ 25, "73E07623-B994-4088-B61F-80502F5E4D98", 25, 1354020974, "393208", 1354020974, "393208", "{\n}", "25", "Calumet Park", "81800", "http://www.zillow.com/local-info/IL-Calumet-Park-home-value/r_37699/", "MJR", "25", "UR", "36441.5712615", "31581293.1242" ]
+, [ 26, "54ADC2D2-E4F5-475E-AD1F-2BF2F8F85EB4", 26, 1354020974, "393208", 1354020974, "393208", "{\n}", "26", "Peotone", "155000", "http://www.zillow.com/local-info/IL-Peotone-home-value/r_53859/", "MJR", "26", "UR", "72716.8676408", "44367205.2615" ]
+, [ 27, "482B25D4-6F73-43A5-9136-8ABA5C3C13EB", 27, 1354020974, "393208", 1354020974, "393208", "{\n}", "27", "Park Forest", "61600", "http://www.zillow.com/local-info/IL-Park-Forest-home-value/r_33328/", "MJR", "27", "UR", "116279.588989", "142590723.459" ]
+, [ 28, "AAC8FB87-BB43-480C-9EB5-78BCFC30FBC4", 28, 1354020974, "393208", 1354020974, "393208", "{\n}", "28", "South Holland", "108600", "http://www.zillow.com/local-info/IL-South-Holland-home-value/r_27174/", "MJR", "28", "UR", "110927.81427", "201528387.722" ]
+, [ 29, "B32DF863-9CEF-4CA2-A736-B075795EC236", 29, 1354020974, "393208", 1354020974, "393208", "{\n}", "29", "Matteson", "130900", "http://www.zillow.com/local-info/IL-Matteson-home-value/r_35945/#metric=mt%3D34%26dt%3D1%26tp%3D5%26rt%3D8%26r%3D35945%26el%3D0", "MJR", "29", "UR", "117290.028037", "260683289.467" ]
+, [ 30, "4DBF0E93-AF45-4319-885B-EDF9A91397F4", 30, 1354020974, "393208", 1354020974, "393208", "{\n}", "30", "Hickory Hills", "160000", "http://www.zillow.com/local-info/IL-Hickory-Hills-home-value/r_25109/", "MJR", "30", "UR", "53873.1851593", "78791376.5017" ]
+, [ 31, "49928E4A-D9F3-41B3-98F3-34F99EE7B8A7", 31, 1354020974, "393208", 1354020974, "393208", "{\n}", "31", "Worth", "120500", "http://www.zillow.com/local-info/IL-Worth-home-value/r_56647/", "MJR", "31", "UR", "40269.4645558", "65923818.3534" ]
+, [ 32, "8DF08D19-ED24-4410-B7DA-BD745C4BD353", 32, 1354020974, "393208", 1354020974, "393208", "{\n}", "32", "Merrionette Park", "89900", "http://www.zillow.com/local-info/IL-Merrionette-Park-home-value/r_25866/#metric=mt%3D34%26dt%3D1%26tp%3D5%26rt%3D8%26r%3D25866%26el%3D0", "MJR", "32", "UR", "15846.3729432", "10184268.5195" ]
+, [ 33, "310088CF-AE24-4158-AF5A-93207CC475D4", 33, 1354020974, "393208", 1354020974, "393208", "{\n}", "33", "Burbank", "129600", "http://www.zillow.com/local-info/IL-Burbank-home-value/r_37652/", "MJR", "33", "UR", "58685.1515087", "116045755.837" ]
+, [ 34, "FF79C6CC-13DA-45F6-92B4-FD419FB1B6AC", 34, 1354020974, "393208", 1354020974, "393208", "{\n}", "34", "Evergreen Park", "133500", "http://www.zillow.com/local-info/IL-Evergreen-Park-home-value/r_11366/", "MJR", "34", "UR", "42997.0201465", "88375645.924" ]
+, [ 35, "A945C631-AB7C-4823-86E3-730E23F269AE", 35, 1354020974, "393208", 1354020974, "393208", "{\n}", "35", "Palos Hills", "131500", "http://www.zillow.com/local-info/IL-Palos-Hills-home-value/r_46975/", "MJR", "35", "UR", "68265.0004111", "118381030.281" ]
+, [ 36, "B7C5E78B-8BDE-4AF9-B55F-78DDECE7EC88", 36, 1354020974, "393208", 1354020974, "393208", "{\n}", "36", "Palos Heights", "223400", "http://www.zillow.com/local-info/IL-Palos-Heights-home-value/r_6390/", "MJR", "36", "UR", "72170.9077969", "108192253.486" ]
+, [ 37, "E8E179C4-536A-49A5-9FDB-8C150182E944", 37, 1354020974, "393208", 1354020974, "393208", "{\n}", "37", "Chicago Ridge", "105900", "http://www.zillow.com/local-info/IL-Chicago-Ridge-home-value/r_44572/", "MJR", "37", "UR", "52254.231627", "63009369.0791" ]
+, [ 38, "69BD9549-D998-4374-A983-083F0DB44D6B", 38, 1354020974, "393208", 1354020974, "393208", "{\n}", "38", "Posen", "94500", "http://www.zillow.com/local-info/IL-Posen-home-value/r_53979/#metric=mt%3D34%26dt%3D1%26tp%3D5%26rt%3D8%26r%3D53979%26el%3D0", "MJR", "38", "UR", "28033.0321062", "32455287.2683" ]
+, [ 39, "A8F413A0-AA2E-45E4-B9F6-DDBFFB03FFC2", 39, 1354020974, "393208", 1354020974, "393208", "{\n}", "39", "Robbins", "61500", "http://www.zillow.com/local-info/IL-Robbins-home-value/r_40587/", "MJR", "39", "UR", "39425.6835014", "40631775.1637" ]
+, [ 40, "6DB3A1C4-95A2-4EDD-ACB8-9C2FFF18149B", 40, 1354020974, "393208", 1354020974, "393208", "{\n}", "40", "Crestwood", "91200", "http://www.zillow.com/local-info/IL-Crestwood-home-value/r_17624/", "MJR", "40", "UR", "87480.5547427", "87054051.9215" ]
+, [ 41, "53AA088F-3AD6-41AF-B143-81E3102F98DE", 41, 1354020974, "393208", 1354020974, "393208", "{\n}", "41", "Midlothian", "101500", "http://www.zillow.com/local-info/IL-Midlothian-home-value/r_50540/", "MJR", "41", "UR", "61716.737071", "78598618.8488" ]
+, [ 42, "B924DB5F-F962-46E6-9163-8BEB6CA8279B", 42, 1354020974, "393208", 1354020974, "393208", "{\n}", "42", "Oak Forest", "149600", "http://www.zillow.com/local-info/IL-Oak-Forest-home-value/r_16535/", "MJR", "42", "UR", "156921.2447", "160933934.522" ]
+, [ 43, "12B46B47-FFED-44E7-92B9-34EF5EB98B96", 43, 1354020974, "393208", 1354020974, "393208", "{\n}", "43", "Alsip", "125500", "http://www.zillow.com/local-info/IL-Alsip-home-value/r_16736/", "MJR", "43", "UR", "87815.5290148", "180071888.466" ]
+, [ 44, "995539F7-7775-4F70-9779-F4052C8873AF", 44, 1354020974, "393208", 1354020974, "393208", "{\n}", "44", "Justice", "133900", "http://www.zillow.com/local-info/IL-Justice-home-value/r_35727/", "MJR", "44", "UR", "52035.9355198", "81628902.8252" ]
+, [ 45, "6AE555B2-057E-440B-B0CA-C51F3AFA676F", 45, 1354020974, "393208", 1354020974, "393208", "{\n}", "45", "Bedford Park", "0", "http://www.zillow.com/local-info/IL-Bedford-Park-home-value/r_50935/", "MJR", "45", "UR", "91884.7959924", "173840177.261" ]
+, [ 46, "01F465E1-9BA6-40E6-89B7-F68D64D8966F", 46, 1354020974, "393208", 1354020974, "393208", "{\n}", "46", "Bridgeview", "133400", "http://www.zillow.com/local-info/IL-Bridgeview-home-value/r_43599/", "MJR", "46", "UR", "83798.4962198", "113710621.398" ]
+, [ 47, "091BE79A-CB8B-43BC-9850-B56258A00D78", 47, 1354020974, "393208", 1354020974, "393208", "{\n}", "47", "Frankfort", "309800", "http://www.zillow.com/local-info/IL-Frankfort-home-value/r_18186/#metric=mt%3D34%26dt%3D1%26tp%3D5%26rt%3D8%26r%3D18186%26el%3D0", "MJR", "47", "UR", "353442.535623", "386807346.154" ]
+, [ 48, "824C5398-C549-4181-840C-3CC89FB9B573", 48, 1354020974, "393208", 1354020974, "393208", "{\n}", "48", "Mokena", "232900", "http://www.zillow.com/local-info/IL-Mokena-home-value/r_32911/", "MJR", "48", "UR", "323138.247881", "218647465.6" ]
+, [ 49, "9A159CCD-4EC1-4235-9761-9F69D5C87FEA", 49, 1354020974, "393208", 1354020974, "393208", "{\n}", "49", "Steger", "80000", "http://www.zillow.com/local-info/IL-Steger-home-value/r_49831/", "MJR", "49", "UR", "74797.5754865", "96845207.8861" ]
+, [ 50, "839DBD71-DE9F-45F6-B359-D6B8172CB0FE", 50, 1354020974, "393208", 1354020974, "393208", "{\n}", "50", "South Chicago Heights", "74800", "http://www.zillow.com/local-info/IL-South-Chicago-Heights-home-value/r_40969/", "MJR", "50", "UR", "43906.7614058", "44259058.8896" ]
+, [ 51, "714EE924-6DD0-42B1-9DDE-48D5D2F6A5D8", 51, 1354020974, "393208", 1354020974, "393208", "{\n}", "51", "Crete", "132400", "http://www.zillow.com/local-info/IL-Crete-home-value/r_24269/", "MJR", "51", "UR", "145037.683636", "185399132.386" ]
+, [ 52, "0A19D219-AED3-4CC3-814F-A19A2C0916CF", 52, 1354020974, "393208", 1354020974, "393208", "{\n}", "52", "University Park", "87200", "http://www.zillow.com/local-info/IL-University-Park-home-value/r_48096/", "MJR", "52", "UR", "177520.447458", "297613304.615" ]
+, [ 53, "5B464498-3801-4856-9C10-6B8611A74444", 53, 1354020974, "393208", 1354020974, "393208", "{\n}", "53", "Ford Heights", "44900", "http://www.zillow.com/local-info/IL-Ford-Heights-home-value/r_31586/", "MJR", "53", "UR", "43960.6789721", "41433584.0693" ]
+, [ 54, "FF335B12-32EC-4785-B480-6B4D5F9C747B", 54, 1354020974, "393208", 1354020974, "393208", "{\n}", "54", "Hazel Crest", "77600", "http://www.zillow.com/local-info/IL-Hazel-Crest-home-value/r_28425/", "MJR", "54", "UR", "79373.8085305", "94479085.4604" ]
+, [ 55, "60AD16C2-3415-42D0-8C36-015AE7A7A01F", 55, 1354020974, "393208", 1354020974, "393208", "{\n}", "55", "Lemont", "288800", "http://www.zillow.com/local-info/IL-Lemont-home-value/r_25548/", "MJR", "55", "UR", "302701.793294", "213604217.547" ]
+, [ 56, "FDFF7579-E021-4FDB-A994-C621FF23636A", 56, 1354020974, "393208", 1354020974, "393208", "{\n}", "56", "Markham", "50000", "http://www.zillow.com/local-info/IL-Markham-home-value/r_25758/", "MJR", "56", "UR", "84220.1642663", "146169917.308" ]
+, [ 57, "AA5F7858-5E10-40CB-BD44-6845F092C25A", 57, 1354020974, "393208", 1354020974, "393208", "{\n}", "57", "Willow Springs", "216800", "http://www.zillow.com/local-info/IL-Willow-Springs-home-value/r_49870/", "MJR", "57", "UR", "125620.195299", "110327301.534" ]
+, [ 58, "C8B84A1A-6D3D-4D8A-A172-6730E816B003", 58, 1354020974, "393208", 1354020974, "393208", "{\n}", "58", "Manhattan", "199900", "http://www.zillow.com/local-info/IL-Manhattan-home-value/r_25726/", "MJR", "58", "UR", "179519.61405", "141429554.044" ]
+, [ 59, "62ACF846-70DA-4FA7-A664-0F53300FE94E", 59, 1354020974, "393208", 1354020974, "393208", "{\n}", "59", "Beecher", "139000", "http://www.zillow.com/local-info/IL-Beecher-home-value/r_30391/", "MJR", "59", "UR", "63450.2117639", "81613688.3712" ]
+, [ 60, "25E0A848-3B0D-40C6-8012-3670A8274104", 60, 1354020974, "393208", 1354020974, "393208", "{\n}", "60", "New Lenox", "212900", "http://www.zillow.com/local-info/IL-New-Lenox-home-value/r_29044/", "MJR", "60", "UR", "522536.375611", "392438174.87" ]
+, [ 61, "8E4EC176-EE84-4885-BE0B-EEE6D154F25F", 61, 1354020974, "393208", 1354020974, "393208", "{\n}", "61", "Monee", "145500", "http://www.zillow.com/local-info/IL-Monee-home-value/r_53374/", "MJR", "61", "UR", "94516.5480545", "103657213.008" ]
+, [ 62, "94FBFE42-E21C-4800-A683-46508F8EBB8B", 62, 1354020974, "393208", 1354020974, "393208", "{\n}", "62", "Orland Park", "224200", "http://www.zillow.com/local-info/IL-Orland-Park-home-value/r_33256/", "MJR", "62", "UR", "472041.872855", "599418727.328" ]
+, [ 63, "55E2B00B-BAFF-461E-AAD1-4C924B31684B", 63, 1354020974, "393208", 1354020974, "393208", "{\n}", "63", "Orland Hills", "165700", "http://www.zillow.com/local-info/IL-Orland-Hills-home-value/r_56120/", "MJR", "63", "UR", "42153.6932862", "32847012.9215" ]
+, [ 64, "F6855DB6-3F54-4CE8-831A-552C64DDC8BF", 64, 1354020974, "393208", 1354020974, "393208", "{\n}", "64", "Hometown", "85300", "http://www.zillow.com/local-info/IL-Hometown-home-value/r_8513/", "MJR", "64", "UR", "15714.2400393", "13211479.7522" ]
+, [ 65, "C8BF3FBF-B85A-499E-8347-93149E011088", 65, 1354020974, "393208", 1354020974, "393208", "{\n}", "65", "Countryside", "201600", "http://www.zillow.com/local-info/IL-Countryside-home-value/r_51561/", "MJR", "65", "UR", "63748.9202872", "80004129.7944" ]
+, [ 66, "D0B81270-14D7-4C29-A6E0-A80E275D98B9", 66, 1354020974, "393208", 1354020974, "393208", "{\n}", "66", "Hodgkins", "0", "http://www.zillow.com/local-info/IL-Hodgkins-home-value/r_32054/", "MJR", "66", "UR", "62820.2270774", "73540736.7101" ]
+, [ 67, "30EB651D-C993-4785-92BA-0DD2A197FD3B", 67, 1354020974, "393208", 1354020974, "393208", "{\n}", "67", "McCook", "0", "http://www.zillow.com/local-info/IL-Mc-Cook-home-value/r_53214/", "MJR", "67", "UR", "49497.2179918", "73092141.3647" ]
+, [ 68, "F7EF77CD-5045-4DF4-B792-EB2D1490890D", 68, 1354020974, "393208", 1354020974, "393208", "{\n}", "68", "Summit", "117500", "http://www.zillow.com/local-info/IL-Summit-home-value/r_27318/", "MJR", "68", "UR", "37717.6136393", "60891758.8478" ]
+, [ 69, "9A10AB2F-C4F7-40EA-BE01-CB9558B61A99", 69, 1354020974, "393208", 1354020974, "393208", "{\n}", "69", "Burr Tidge", "505800", "http://www.zillow.com/local-info/IL-Burr-Ridge-home-value/r_51202/", "MJR", "69", "UR", "133459.642424", "198541273.972" ]
+, [ 70, "4B225E1A-A494-4FBC-A521-6B69719B413E", 70, 1354020974, "393208", 1354020974, "393208", "{\n}", "70", "Indian Head Park", "162300", "http://www.zillow.com/local-info/IL-Indian-Head-Park-home-value/r_45870/", "MJR", "70", "UR", "36021.8484069", "23472900.5759" ]
+, [ 71, "01741AA4-1920-4299-BEA1-73B037F5DC06", 71, 1354020974, "393208", 1354020974, "393208", "{\n}", "71", "Forest View", "189900", "http://www.zillow.com/local-info/IL-Forestview-home-value/r_31594/", "MJR", "71", "UR", "50127.4515164", "32609125.6671" ]
+, [ 72, "5D625E85-18A3-4D71-BBF1-4E654D0BC8AA", 72, 1354020974, "393208", 1354020974, "393208", "{\n}", "72", "Stickney", "116800", "http://www.zillow.com/local-info/IL-Stickney-home-value/r_14002/", "MJR", "72", "UR", "45062.5376492", "54666244.0103" ]
+, [ 73, "CA0A8C3C-10A2-4F50-839E-17E29839819B", 73, 1354020974, "393208", 1354020974, "393208", "{\n}", "73", "Lyons", "118500", "http://www.zillow.com/local-info/IL-Lyons-home-value/r_16400/", "MJR", "73", "UR", "49161.7547428", "62852069.4698" ]
+, [ 74, "FB886BC5-A4B7-4C15-82C6-4811C09E63EC", 74, 1354020974, "393208", 1354020974, "393208", "{\n}", "74", "LaGrange", "311300", "http://www.zillow.com/local-info/IL-La-Grange-home-value/r_12238/", "MJR", "74", "UR", "48218.1013223", "69948294.8696" ]
+, [ 75, "C9569693-3CF6-469C-86DC-8664E19EE246", 75, 1354020974, "393208", 1354020974, "393208", "{\n}", "75", "Western Springs", "379300", "http://www.zillow.com/local-info/IL-Western-Springs-home-value/r_34773/", "MJR", "75", "UR", "39678.7120325", "73219629.3878" ]
+ ]
+}

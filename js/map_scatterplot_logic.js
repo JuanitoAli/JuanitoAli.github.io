@@ -60,6 +60,7 @@ var url = [
     All data must reside in the same array to compute correctly the scales to scatterplot...
 */
 var dataArray = []; // used to hold AJAX requests
+var dataArrayGeo = []; // used to store boundaries polygon
 
 /*
     dataArray is splitted again in its component dataset to perfom calculations
@@ -222,7 +223,7 @@ function drawMap() {
 
                 // Markers for climate stations
                 case 4:
-                    progress(90, "Requesting climate data");
+                    progress(95, "Requesting climate data");
                     var stations = getUpdatedStations();
                     if(loadOnlineData) {
                         request = new XMLHttpRequest();
@@ -261,6 +262,23 @@ function drawMap() {
                         }
                     }
                     break;
+                case 5:
+                    progress(99, "Requesting district boundaries");
+                    if(loadOnlineData)
+                        response = JSON.parse(request.responseText);
+                    else
+                        response = loadOffline5();
+                    for(var i = 0; i < response.data.length; ++i) {
+                        dataArrayGeo.push({
+                            type: 5,
+                            districtNumber: response.data[i][10],
+                            polygonVertex: response.data[i][8],
+                            addInfo: {}
+                        });
+                    }
+                    break;
+
+
             }
     }
     loadOnlineStatus();
@@ -268,10 +286,42 @@ function drawMap() {
     putMarkersOfURL(1);
     putMarkersOfURL(3);
     putMarkersOfURL(4);
+    //putMarkersOfURL(5);
     drawScatterplot(dataArray);
-
     progress(100, "Ready!");
 };
+
+function getCoordinates(multipolygonString) {
+    var coordinates = multipolygonString.split(",");
+    var loc;
+    var points = [];
+    for(var i = 1; i < coordinates.length; i++) {
+        loc = coordinates[i].split(" ");
+        points.push({
+            lat: loc[1],
+            lon: loc[2]
+        });
+    }
+    return points;
+}
+
+function getPolygonFomat(multipolygonString) {
+    var coordinates = multipolygonString.split(",");
+    var loc;
+    var points = [];
+    for(var i = 1; i < coordinates.length; i++) {
+        loc = coordinates[i].split(" ");
+        points.push({
+            lat: loc[1],
+            lon: loc[2]
+        });
+    }
+    var string = "";
+    for(var i = 1; i< points.length; ++i) {
+        string = string.concat(points[i].lat + "," + points[i].lon + " ");
+    }
+    return string;
+}
 
 function seeSelectedHouses() {
     var node = document.getElementById("houseDisplay");
@@ -356,8 +406,6 @@ function results(houseList, policeData, climateData, crimeData) {
     node.appendChild(elem);
 }
 
-
-
 function findHouse(key, dataset) {
     for(var i = 0; i < dataset.length; ++i) {
         if(dataset[i].key == key)
@@ -374,7 +422,6 @@ function printDataArray() {
     }
     console.log("undefined elements: " + counter);
 }
-
 
 // divide dataset in pieces. Each piece is data about specific dataset
 function divideDatasets(dataset) {
@@ -398,7 +445,6 @@ function divideDatasets(dataset) {
         }
     }
 }
-
 
 /*
     See if check box is checked. If so, load data present in offlinedata.js.
@@ -452,6 +498,27 @@ function drawScatterplot(dataset) {
                         d3.max(dataset, function(d) { return d.lon; })
                     ])
                     .range([h - padding, padding]);
+
+    //------------------------------------------------------------------------
+    //var poly = getPolygonFomat(dataArrayGeo[0].polygonVertex);
+    /*
+    var poly = [{lat: "-88.0", lon: "41.7"},
+                {lat: "-87.6", lon: "41.9"},
+                {lat: "-88.0", lon: "42.0"}];
+
+    d3.select("body").select("svg")
+                        .selectAll("polyline")
+                        .data(poly)
+                        .enter()
+                        .append("polyline")
+                        .attr("points",function(d) {
+                                return d.map(function(d) {
+                                    return [xScale(d.lat), yScale(d.lon)].join(",");
+                                }).join(" ");
+                            })
+                        .attr("style","fill:none;stroke:black;stroke-width:3");
+    */
+    //------------------------------------------------------------------------
 
     // Draws police security incidence area (blue)
     d3.select("body").select("svg")
@@ -521,6 +588,8 @@ function drawScatterplot(dataset) {
         .attr("cx", xScale(41.8708))
         .attr("cy", yScale(-87.6505))
         .attr("r", "5")
+        .attr("stroke", "brown")
+        .attr("stronke-width", "1")
         .attr("fill", "rgb(255, 137, 34)");
 
     // Adds alert with phone number to all houses!
