@@ -1,4 +1,4 @@
-1. App name: "Room Finder"
+1. App name: Room Finder :: https://juanitoali.github.io/
 2. Keywords: security, simple, price
 3. Description of datasets and function design:
 
