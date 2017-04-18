@@ -160,6 +160,8 @@ function drawMap() {
                     else
                         response = loadOffline1();
                     for(var i = 0; i < response.data.length; i++) {
+                        if(response.data[i][19] == null)
+                            continue;
                         var marker = new google.maps.Marker({
                             position: new google.maps.LatLng(response.data[i][19], response.data[i][20]),
                             map: map,
@@ -168,11 +170,9 @@ function drawMap() {
                         marker.addListener('click', function() {
                             this.setIcon("icon/numbers/number_" + selectCounter + ".png");
                             this.setAnimation(google.maps.Animation.BOUNCE);
-                            var node = document.getElementById("key" + this.getPosition().lat());
                             var house = findHouse("key" + this.getPosition().lat(), dataset1)
                             candidates.push(house);
-                            node.setAttribute("fill", "purple");
-                            node.setAttribute("stroke", "purple");
+                            drawOnPlot({key: "key" + this.getPosition().lat()}, "purple", "BlueViolet ", 4);
                             seeSelectedHouses();
                             selectCounter++;
                         });
@@ -352,7 +352,7 @@ function results(houseList, policeData, climateData, crimeData) {
     var elem = document.createElement("pre");
     elem.setAttribute("class", "alert-info");
     var text = document.createTextNode(
-        "BEST HOUSES LOCATIONS: " + "\n" + "\n" +
+        "BEST SELECTED HOUSES LOCATIONS: " + "\n" + "\n" +
         "House with nearest police station is: " + result.housePolice + "\n" +
         "\tThe distance is: " + result.minPolice + "\n" +  "\n" +
         "House with minimum number of crimes is: " + result.houseCrimes + "\n" +
@@ -404,6 +404,123 @@ function results(houseList, policeData, climateData, crimeData) {
     );
     elem.appendChild(text);
     node.appendChild(elem);
+
+    drawOnPlot(houseList[result.housePolice], "Gold", "Olive", 8);
+    drawOnPlot(houseList[result.houseCrimes], "Gold", "Olive", 8);
+}
+
+function bestOfAll(houseList, policeData, climateData, crimeData) {
+    // prebox that holds two main stats
+    var result = mainStats(houseList, policeData, climateData, crimeData);
+    var node = document.getElementById("generalStats");
+    var elem = document.createElement("pre");
+    elem.setAttribute("class", "alert-danger");
+    var text = document.createTextNode(
+        "BEST HOUSES LOCATIONS OF ALL!: " + "\n" + "\n" +
+        "House with nearest police station is: " + result.housePolice + "\n" +
+        "\tThe distance is: " + result.minPolice + "\n" +  "\n" +
+        "House with minimum number of crimes is: " + result.houseCrimes + "\n" +
+        "\tThe number of crimes is: " + result.minCrimes + "\n" + "\n" +
+        "House with maximum number of crimes is: " + result.houseCrimesX + "\n" +
+        "\t The humber of crimes is: " + result.maxCrimes + "\n"
+    );
+    elem.appendChild(text);
+    node.appendChild(elem);
+
+    // get near stations:
+    var station1 = getNearest(houseList[result.housePolice], climateData);
+    var station2 = getNearest(houseList[result.houseCrimes], climateData);
+
+    // climate data of stations
+    var climateData1 = station1.addInfo;
+    var climateData2 = station2.addInfo;
+
+    // contanating data in climateData1
+    var string1 = "";
+    for(var i = 0; i < climateData1.length; ++i) {
+        string1 += climateData1[i].datatype + " = " + climateData1[i].value
+            + "\t\tDate = " + climateData1[i].date + "\n";
+    }
+
+    // concatenating data in climateData2
+    var string2 = "";
+    for(var i = 0; i < climateData2.length; ++i) {
+        string2 += climateData2[i].datatype + " = " + climateData2[i].value
+            + "\t\tDate = " + climateData2[i].date + "\n";
+    }
+
+    // prebox that holds climate stats for house1 (best police)
+    elem = document.createElement("pre");
+    elem.setAttribute("class", "alert-warning");
+    text = document.createTextNode(
+        "BEST OF ALL!" + "\n" +
+        "BEST POLICE COVERED HOUSE CLIMATE STATUS: (HOUSE" + result.housePolice + ") "
+        + "\n" + "\n" + string1
+    );
+    elem.appendChild(text);
+    node.appendChild(elem);
+
+    // prebox that holds climate stats for house2 (best crimes)
+    elem = document.createElement("pre");
+    elem.setAttribute("class", "alert-warning");
+    text = document.createTextNode(
+        "BEST OF ALL!" + "\n" +
+        "BEST MINIMAL CRIME HOUSE CLIMATE STATUS: (HOUSE" + result.houseCrimes + ") "
+        + "\n" + "\n" + string2
+    );
+    elem.appendChild(text);
+    node.appendChild(elem);
+
+    drawOnPlot(houseList[result.housePolice], "Gold", "Olive", 8);
+    drawOnPlot(houseList[result.houseCrimes], "Gold", "Olive", 8);
+}
+
+function nearToUniversity(houseList, nearNumber) {
+    var houses = [];
+    var nearest = [];
+    var university = {lat: 41.8708, lon: -87.6505};
+    for(var i = 0; i < houseList.length; ++i) {
+        houses.push({
+            lat: houseList[i].lat,
+            lon: houseList[i].lon,
+            dist: findDistance(university, houseList[i]),
+            pho: houseList[i].pho,
+            key: houseList[i].key
+        })
+    }
+    function compare(house1, house2) {
+        if(house1.dist > house2.dist)
+            return 1;
+        else if(house1.dist < house2.dist)
+            return -1;
+        else
+            return 0;
+    }
+    houses.sort(compare);
+    for(var i = 0; i < nearNumber; ++i)
+        nearest.push(houses[i]);
+
+    // HTML display
+    var node = document.getElementById("houseDisplay");
+    var rem = document.getElementById("housesList");
+    node.removeChild(rem);
+    x = document.createElement("ul");
+    x.setAttribute("id", "housesList");
+    node.appendChild(x);
+    var list = document.getElementById("housesList");
+    for(var i = 0; i < nearest.length; ++i) {
+        var li = document.createElement("pre");
+        li.setAttribute("class", "alert-info");
+        var house = nearest[i];
+        var textLi = document.createTextNode(
+            "HOUSE " + i + "\n" +
+            "phone: " + house.pho + "\n" +
+            "distance: " + house.dist + " kms."
+        );
+        li.appendChild(textLi);
+        list.appendChild(li);
+        drawOnPlot(house, "Gold", "Olive", 3);
+    }
 }
 
 function findHouse(key, dataset) {
@@ -444,6 +561,24 @@ function divideDatasets(dataset) {
                 break;
         }
     }
+}
+
+function drawOnPlot(location, fillColor, strokeColor, radius) {
+    var dot = document.getElementById(location.key);
+    dot.setAttribute("fill", fillColor);
+    dot.setAttribute("stroke", strokeColor);
+    dot.setAttribute("r", radius);
+}
+
+function clearAll() {
+    // removes svg, if not so, the next call overdraw scatterplot
+    /*
+    var node = document.getElementById("plot");
+    var rem = document.getElementById("scatterplot");
+    node.removeChild(rem);
+    drawMap();
+    */
+    location.reload();
 }
 
 /*

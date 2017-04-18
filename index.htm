@@ -50,19 +50,31 @@
 	                <li class="active"><a href="#">Home</a></li>
 	                <li><a href="#"><input type="checkbox" id="boolOffline" checked> Offline Data</a></li>
                     <li><button class="btn btn-primary navbar-btn" onclick="results(candidates, dataset0, dataset4, dataset3)">Get Best Houses</button></li>
+                    <li><button class="btn btn-primary navbar-btn" onclick="bestOfAll(dataset1, dataset0, dataset4, dataset3)">Best of all</button></li>
+                    <li><button class="btn btn-primary navbar-btn" onclick="nearToUniversity(dataset1, 15)">Near to University</button></li>
+                    <li><button class="btn btn-info navbar-btn" onclick="clearAll()">Clear All</button></li>
+                    <li class="dropdown">
+                      <a class="dropdown-toggle" data-toggle="dropdown" href="#">Amount
+                      <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#">Page 1-1</a></li>
+                        <li><a href="#">Page 1-2</a></li>
+                        <li><a href="#">Page 1-3</a></li>
+                      </ul>
+                    </li>
                     <li><a href="#statsSection"> Go to stats</a></li>
 	            </ul>
 	        </div>
 	    </div>
 	</nav>
 
-    <!-- PAGE CENTRAL CONTENT LAYOUT: SCATTERPLOT & GOOGLE MAP -->
-    <div class="container-fluid text-center">
+    <!-- PAGE CENTRAL CONTENT  -->
+    <div class="container-fluid text-center" id="mainContent">
         <!-- scatterplot and map -->
-	    <div class="row content">
+	    <div class="row content" id="graphs">
             <!-- Scatterplot -->
 	        <div class="col-sm-6" id="scatterplot">
-                <svg>
+                <svg id="plot">
                     <defs>
                       <filter id="blur">
                         <feGaussianBlur in="SourceGraphic" stdDeviation="5" />
@@ -78,7 +90,7 @@
 	    </div>
 
         <!-- Help info and load log -->
-        <div class="row content">
+        <div class="row content" id="info">
             <div class="col-sm-6 well text-left">
                 <p> <strong>How to use</strong><br>
                     <ul>
