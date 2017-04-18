@@ -405,8 +405,8 @@ function results(houseList, policeData, climateData, crimeData) {
     elem.appendChild(text);
     node.appendChild(elem);
 
-    drawOnPlot(houseList[result.housePolice], "Gold", "Olive", 8);
-    drawOnPlot(houseList[result.houseCrimes], "Gold", "Olive", 8);
+    drawOnPlot(houseList[result.housePolice], "Gold", "Olive", 4);
+    drawOnPlot(houseList[result.houseCrimes], "Gold", "Olive", 4);
 }
 
 function bestOfAll(houseList, policeData, climateData, crimeData) {
@@ -471,8 +471,8 @@ function bestOfAll(houseList, policeData, climateData, crimeData) {
     elem.appendChild(text);
     node.appendChild(elem);
 
-    drawOnPlot(houseList[result.housePolice], "Gold", "Olive", 8);
-    drawOnPlot(houseList[result.houseCrimes], "Gold", "Olive", 8);
+    drawOnPlot(houseList[result.housePolice], "Gold", "Olive", 4);
+    drawOnPlot(houseList[result.houseCrimes], "Gold", "Olive", 4);
 }
 
 function nearToUniversity(houseList, nearNumber) {
@@ -519,7 +519,7 @@ function nearToUniversity(houseList, nearNumber) {
         );
         li.appendChild(textLi);
         list.appendChild(li);
-        drawOnPlot(house, "Gold", "Olive", 3);
+        drawOnPlot(house, "rgb(255," + (255 - i*6) + ",0)", "Olive", 3);
     }
 }
 
