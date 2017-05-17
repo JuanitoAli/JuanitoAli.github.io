@@ -1,0 +1,41 @@
+1 [+-]. Crear página web:
+	- wix vs github
+	> github (hace backup)
+		+ modificar el index
+			' Usar bootstrap
+			' Se puede ir preparando el contenido de la página que 
+			  son los 6 puntos de la guia pdf que se encuentra en 
+			  esta carpeta.
+		+ en el nuevo index enlazar la aplicación del proyecto...
+
+	> wix...
+		+ subir contenido...
+		+ puede demorar lo mismo que hacer la página en git...
+		
+2 [  ]. Post in your web page a software requirements document with:
+	a [ok]. At least 5 business requirements.
+	b [ok]. At least 5 user requirements
+	c [+-]. At least 6 use cases requirements, 50% of them must have
+	specification.
+	d [ok]. At least 5 user stories requirements.
+	e [  ]. At least 3 wireframes or mockups.
+	f [ok]. At least 1 non – functional requirement of each category:
+		Usability, Performance, Security, Availability, Robustness.
+	
+3 [  ]. Post in your web page the following diagrams: 
+	[  ] one component diagram 
+	[ok] one class diagram.
+
+4 [ok]. Post the software application URL or its installer.
+
+5 [ok]. Add the source code of your software application.
+
+6 [ok]. Post in your web page a document describing which good 
+practices of development you use in your implementation – 1 page.
+
+REGULATIONS
+- Deadline: May 17 2017 [1:59 p.m.]
+- Students will work individually.
+- Send the URL page to the Professor’s email
+		[FINAL_ITERATION_LASTNAME_FIRSTNAME].
+- This artifact is included in 15% [Last Iteration
